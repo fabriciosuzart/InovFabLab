@@ -1,0 +1,139 @@
+/* Variáveis de cor (mantidas do original) */
+:root {
+  --primary-color: #007BFF;
+  --dark-color: #212529;
+  --light-color: #f8f9fa;
+  --text-color: #ffffff;
+  --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.navbar {
+  background-color: #20262B;
+  height: 80px;
+  display: flex;
+  justify-content: center; /* Centraliza o container filho */
+  align-items: center;
+  font-size: 1.2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow);
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between; /* Logo à esquerda, links à direita */
+  align-items: center;
+  height: 80px;
+  width: 100%;
+  max-width: 1300px; /* Largura máxima do conteúdo */
+  padding: 0 10px; /* Espaçamento nas laterais */
+}
+
+.navbar-logo { /* Alterado de .navbar-logo a para .navbar-logo */
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white; /* 1. TEXTO DA LOGO EM BRANCO */
+  text-decoration: none;
+  display: flex; /* ESSENCIAL: Alinha os itens internos (imagem e texto) */
+  align-items:center; /* Centraliza verticalmente a imagem e o texto */
+}
+
+.logo-image {
+  height: 65px; /* Defina a altura desejada para sua logo */
+  width: auto; /* A largura se ajustará automaticamente */
+  margin-right: 10px; /* Cria um espaço entre a imagem e o texto */
+}
+
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  text-align: center;
+  gap: 2rem;
+}
+
+.nav-item {
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease-out;
+}
+
+.nav-link:hover {
+  color: var(--primary-color);
+}
+
+.nav-icon {
+  display: none; /* Escondido em telas grandes */
+  cursor: pointer;
+}
+
+.nav-icon div {
+  width: 25px;
+  height: 3px;
+  background-color: var(--dark-color);
+  margin: 5px 0;
+  transition: all 0.3s ease-in-out;
+}
+
+
+/* --- LÓGICA RESPONSIVA --- */
+@media screen and (max-width: 960px) {
+  .nav-menu {
+    display: flex;
+    flex-direction: column; /* Itens em coluna */
+    width: 100%;
+    height: 90vh; /* Ocupa quase toda a altura da tela */
+    position: absolute;
+    top: 80px; /* Começa logo abaixo da navbar */
+    left: -100%; /* Começa fora da tela, à esquerda */
+    opacity: 1;
+    transition: all 0.5s ease;
+    background: white;
+    gap: 1.5rem;
+    padding-top: 2rem;
+  }
+
+  .nav-menu.active {
+    left: 0; /* Move para dentro da tela */
+    opacity: 1;
+    transition: all 0.5s ease;
+    z-index: 1;
+  }
+
+  .nav-item {
+    width: 100%;
+    height: auto;
+  }
+
+  .nav-link {
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+    display: table;
+  }
+
+  .nav-icon {
+    display: block; /* Mostra o ícone em telas pequenas */
+  }
+  
+  /* Animação do ícone para "X" */
+  .nav-icon .line1.active {
+    transform: rotate(-45deg) translate(-5px, 6px);
+  }
+  .nav-icon .line2.active {
+    opacity: 0;
+  }
+  .nav-icon .line3.active {
+    transform: rotate(45deg) translate(-5px, -6px);
+  }
+}
