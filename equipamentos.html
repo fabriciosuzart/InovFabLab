@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipamentos - Laboratório Inteligente</title>
+    <style>
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f2f4fb;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color:#007bff; 
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        header .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color:#fff;
+        }
+
+        header nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color:#fff;
+            font-weight: 500;
+        }
+
+        header nav a:hover {
+            color: #007bff;
+        }
+
+        /* --- Seção Principal --- */
+        main h1 {
+            font-size: 2em;
+            font-weight: 600;
+            margin-bottom: 30px; 
+        }
+        
+        /* --- Grade de Equipamentos --- */
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        /* --- Card de Equipamento --- */
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .card img {
+            max-width: 80%;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin: 10px 0;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        /* --- Status do Equipamento --- */
+        .card .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .status .icon {
+            font-size: 1.2em;
+        }
+
+        .status.available {
+            color: #28a745;
+        }
+        
+        .status.in-use {
+            color: #ffc107;
+        }
+
+        /* --- Botão de Agendamento --- */
+        .card .schedule-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 500;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .card .schedule-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* --- Paginação --- */
+        .pagination {
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">Lab Inteligente</div>
+            <nav>
+                <a href="site.html">Home</a>
+                <a href="assitente-ia.html">Assistente IA</a>
+                <a href="equipamentos.html">Equipamentos</a>
+                <a href="documentacao.html">Documentação</a>
+                <a href="contato.html">Contato</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <h1>Nossos Equipamentos</h1>
+
+            <div class="equipment-grid">
+                <div class="card">
+                    <img src="imagens/impressora_3D_finder_01.jpg" alt="Impressora 3D Finder 01">
+                    <h3>Impressora 3D Finder 01</h3>
+                    <div class="status available">
+                        <span class="icon">✔</span>
+                        <span>Disponível para uso</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+
+                <div class="card">
+                    <img src="imagens/impressora_3D_finder_02.jpg" alt="Impressora 3D Finder 02">
+                    <h3>Impressora 3D Finder 02</h3>
+                    <div class="status available">
+                        <span class="icon">✔</span>
+                        <span>Disponível para uso</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+
+                <div class="card">
+                    <img src="imagens/cortadora_a_laser.jpeg" alt="Cortadora a Laser">
+                    <h3>Cortadora a Laser</h3>
+                    <div class="status in-use">
+                        <span class="icon">🕒</span>
+                        <span>Em uso, aguarde</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+
+                <div class="card">
+                    <img src="imagens/prototipadora.png" alt="Prototipadora">
+                    <h3>Prototipadora</h3>
+                    <div class="status in-use">
+                        <span class="icon">🕒</span>
+                        <span>Em uso, aguarde</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+
+                <div class="card">
+                    <img src="imagens/Bambu_LAB_01.png" alt="Bambu Lab A1">
+                    <h3>Bambu Lab A1</h3>
+                    <div class="status available">
+                        <span class="icon">✔</span>
+                        <span>Disponível para uso</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+
+                <div class="card">
+                    <img src="imagens/Bambu_LAB_02.png" alt="Bambu Lab A2">
+                    <h3>Bambu Lab A2</h3>
+                    <div class="status available">
+                        <span class="icon">✔</span>
+                        <span>Disponível para uso</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+                
+                <div class="card">
+                    <img src="imagens/micro_retífica.jpg" alt="Micro Retífica">
+                    <h3>Micro Retífica</h3>
+                    <div class="status available">
+                        <span class="icon">✔</span>
+                        <span>Disponível para uso</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+
+                <div class="card">
+                    <img src="imagens/plotter_de_recorte.jpg" alt="Plotter de recorte">
+                    <h3>Plotter de recorte</h3>
+                    <div class="status in-use">
+                        <span class="icon">🕒</span>
+                        <span>Em uso, aguarde</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+                
+                 <div class="card">
+                    <img src="imagens/X1_CARBON_COMBO_IMPRESSORA_3D.jpg" alt="X1 Carbon Combo - Impressora 3D">
+                    <h3>X1 Carbon Combo - Impressora 3D</h3>
+                    <div class="status available">
+                        <span class="icon">✔</span>
+                        <span>Disponível para uso</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+
+                <div class="card">
+                    <img src="imagens/ESTACAO_DE_SOLDA.jpg" alt="Estação de solda">
+                    <h3>Estação de solda 01</h3>
+                    <div class="status available">
+                        <span class="icon">✔</span>
+                        <span>Dísponivel para uso</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+
+                <div class="card">
+                    <img src="imagens/ESTACAO_DE_SOLDA.jpg" alt="Estação de solda">
+                    <h3>Estação de solda 02</h3>
+                    <div class="status available">
+                        <span class="icon">✔</span>
+                        <span>Dísponivel para uso</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+
+                <div class="card">
+                    <img src="imagens/furadeira_de_bancada.jpg" alt="Furadeira de bancada">
+                    <h3>Furadeira de bancada</h3>
+                    <div class="status in-use">
+                        <span class="icon">🕒</span>
+                        <span>Em uso, aguarde</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+
+                <div class="card">
+                    <img src="imagens/Serra_tico-tico_bosch.jpg" alt="serra tico tico">
+                    <h3>Serra tico-tico</h3>
+                    <div class="status in-use">
+                        <span class="icon">🕒</span>
+                        <span>Em uso, aguarde</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+
+                 <div class="card">
+                    <img src="imagens/maquina_de_costura.jpg" alt="Máquina de Costura">
+                    <h3>Máquina de Costura</h3>
+                    <div class="status available">
+                        <span class="icon">✔</span>
+                        <span>Disponível para uso</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+
+                <div class="card">
+                    <img src="imagens/Parafusadeira_e_Furadeira_Bateria.jpg" alt="Parafusadeira e Furadeira a Bateria">
+                    <h3>Parafusadeira e Furadeira a Bateria</h3>
+                    <div class="status available">
+                        <span class="icon">✔</span>
+                        <span>Disponível para uso</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+
+                <div class="card">
+                    <img src="imagens/Lixadeira_portátil_DEWALT.jpg" alt="Lixadeira portátil DEWALT">
+                    <h3>Lixadeira portátil DEWALT</h3>
+                    <div class="status available">
+                        <span class="icon">✔</span>
+                        <span>Disponível para uso</span>
+                    </div>
+                    <button class="schedule-button">Agendar</button>
+                </div>
+                </div>
+            </main>
+    </div>
+
+</body>
+</html>
