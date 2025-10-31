@@ -33,11 +33,17 @@
             align-items: center;
             padding: 0 20px;
         }
-
         header .logo {
             font-size: 1.5em;
             font-weight: bold;
-            color:#fff;
+            color: #fff; /* ou a cor do seu texto da logo */
+            display: flex; /* <-- Torna o container da logo flexível */
+            align-items: center; /* <-- Alinha verticalmente a imagem e o texto */
+            gap: 10px; /* <-- Espaçamento entre a imagem e o texto */
+        }
+        .header-logo { /* <-- NOVO ESTILO PARA A IMAGEM DA LOGO */
+            height: 30px; /* Ajuste a altura conforme a sua logo */
+            width: auto; /* Mantém a proporção da imagem */
         }
 
         header nav a {
@@ -119,7 +125,7 @@
 
     <header>
         <div class="container">
-            <div class="logo">Lab Inteligente</div>
+            <div class="logo"><img src="inovfablab_logo.png" alt="Logo Lab Inteligente" class="header-logo"> Lab Inteligente</div>
             <nav>
                 <a href="site.html">Home</a>
                 <a href="assitente-ia.html">Assistente IA</a>
