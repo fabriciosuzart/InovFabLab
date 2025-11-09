@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipamentos - Laboratório Inteligente</title>
+
+    <title>INOVFABLAB</title>
+
+    <link rel="icon" href="logo.png">
     <style>
         
         body {
@@ -133,6 +136,9 @@
             width: 100%;
             cursor: pointer;
             transition: background-color 0.2s ease;
+            text-decoration: none; /* Remove o sublinhado do link */
+            display: inline-block; /* Faz o link respeitar padding e width */
+            box-sizing: border-box;
         }
 
         .card .schedule-button:hover {
@@ -144,19 +150,50 @@
             text-align: center;
             margin-top: 40px;
         }
+        .filter-controls {
+            display: flex;
+            gap: 25px; /* Espaçamento entre os seletores */
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column; /* Coloca o label em cima do seletor */
+            flex: 1; /* Faz os grupos ocuparem espaço igual */
+        }
+
+        .filter-group label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        .filter-group select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            background-color: #fff;
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="container">
-            <div class="logo"><img src="inovfablab_logo.png" alt="Logo Lab Inteligente" class="header-logo"> Lab Inteligente</div>
+            <div class="logo"><img src="logo.png" alt="Logo Lab Inteligente" class="header-logo"> Lab Inteligente</div>
             <nav>
                 <a href="site.html">Home</a>
                 <a href="assitente-ia.html">Assistente IA</a>
                 <a href="equipamentos.html">Equipamentos</a>
                 <a href="documentacao.html">Documentação</a>
                 <a href="contato.html">Contato</a>
+                <a href="cadastro.html">Cadastre-se</a>
             </nav>
         </div>
     </header>
@@ -164,6 +201,24 @@
     <div class="container">
         <main>
             <h1>Nossos Equipamentos</h1>
+            <div class="filter-controls">
+              <div class="filter-group">
+                  <label for="filter-status">Filtrar por Status:</label>
+                  <select id="filter-status">
+                      <option value="all">Todos</option>
+                      <option value="available">Disponíveis</option>
+                      <option value="in-use">Em uso</option>
+                  </select>
+              </div>
+              
+              <div class="filter-group">
+                  <label for="filter-sort">Ordenar por:</label>
+                  <select id="filter-sort">
+                      <option value="default">Padrão</option>
+                      <option value="alphabetical">Ordem Alfabética (A-Z)</option>
+                  </select>
+              </div>
+            </div>
 
             <div class="equipment-grid">
                 <div class="card">
@@ -173,7 +228,7 @@
                         <span class="icon">✔</span>
                         <span>Disponível para uso</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
 
                 <div class="card">
@@ -183,7 +238,7 @@
                         <span class="icon">✔</span>
                         <span>Disponível para uso</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
 
                 <div class="card">
@@ -193,7 +248,7 @@
                         <span class="icon">🕒</span>
                         <span>Em uso, aguarde</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
 
                 <div class="card">
@@ -203,7 +258,7 @@
                         <span class="icon">🕒</span>
                         <span>Em uso, aguarde</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
 
                 <div class="card">
@@ -213,7 +268,7 @@
                         <span class="icon">✔</span>
                         <span>Disponível para uso</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
 
                 <div class="card">
@@ -223,7 +278,7 @@
                         <span class="icon">✔</span>
                         <span>Disponível para uso</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
                 
                 <div class="card">
@@ -233,7 +288,7 @@
                         <span class="icon">✔</span>
                         <span>Disponível para uso</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
 
                 <div class="card">
@@ -243,7 +298,7 @@
                         <span class="icon">🕒</span>
                         <span>Em uso, aguarde</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
                 
                  <div class="card">
@@ -253,7 +308,7 @@
                         <span class="icon">✔</span>
                         <span>Disponível para uso</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
 
                 <div class="card">
@@ -263,7 +318,7 @@
                         <span class="icon">✔</span>
                         <span>Dísponivel para uso</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
 
                 <div class="card">
@@ -273,7 +328,7 @@
                         <span class="icon">✔</span>
                         <span>Dísponivel para uso</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
 
                 <div class="card">
@@ -283,7 +338,7 @@
                         <span class="icon">🕒</span>
                         <span>Em uso, aguarde</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
 
                 <div class="card">
@@ -293,7 +348,7 @@
                         <span class="icon">🕒</span>
                         <span>Em uso, aguarde</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
 
                  <div class="card">
@@ -303,7 +358,7 @@
                         <span class="icon">✔</span>
                         <span>Disponível para uso</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
 
                 <div class="card">
@@ -313,7 +368,7 @@
                         <span class="icon">✔</span>
                         <span>Disponível para uso</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
 
                 <div class="card">
@@ -323,11 +378,80 @@
                         <span class="icon">✔</span>
                         <span>Disponível para uso</span>
                     </div>
-                    <button class="schedule-button">Agendar</button>
+                    <a href="agendamento.html" class="schedule-button">Agendar</a>
                 </div>
             </div>
         </main>
     </div>
+    <script>
+    // Aguarda o conteúdo da página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // Seleciona os elementos que vamos usar
+        const filterStatus = document.getElementById('filter-status');
+        const filterSort = document.getElementById('filter-sort');
+        const equipmentGrid = document.querySelector('.equipment-grid');
+        const cards = document.querySelectorAll('.equipment-grid .card');
+
+        // 1. Armazena a ordem original dos cards
+        cards.forEach((card, index) => {
+            card.dataset.originalIndex = index;
+        });
+
+        // 2. Cria a função principal que atualiza o grid
+        function updateEquipmentGrid() {
+            const statusValue = filterStatus.value;
+            const sortValue = filterSort.value;
+
+            // --- ETAPA DE FILTRAGEM (Oculta ou mostra os cards) ---
+            cards.forEach(card => {
+                const isAvailable = card.querySelector('.status.available');
+                const isInUse = card.querySelector('.status.in-use');
+                
+                let showCard = false;
+
+                if (statusValue === 'all') {
+                    showCard = true;
+                } else if (statusValue === 'available' && isAvailable) {
+                    showCard = true;
+                } else if (statusValue === 'in-use' && isInUse) {
+                    showCard = true;
+                }
+
+                // Aplica o filtro
+                card.style.display = showCard ? 'block' : 'none';
+            });
+
+            // --- ETAPA DE ORDENAÇÃO (Reorganiza os cards) ---
+            const cardsArray = Array.from(cards);
+
+            if (sortValue === 'alphabetical') {
+                // Ordena alfabeticamente pelo texto do <h3>
+                cardsArray.sort((a, b) => {
+                    const nameA = a.querySelector('h3').textContent.trim().toLowerCase();
+                    const nameB = b.querySelector('h3').textContent.trim().toLowerCase();
+                    return nameA.localeCompare(nameB);
+li                });
+            } else if (sortValue === 'default') {
+                // Ordena de volta para a ordem original que salvamos
+                cardsArray.sort((a, b) => {
+                    return a.dataset.originalIndex - b.dataset.originalIndex;
+                });
+            }
+            
+            // Limpa o grid e readiciona os cards na nova ordem
+            equipmentGrid.innerHTML = ''; // Limpa o container
+            cardsArray.forEach(card => {
+                equipmentGrid.appendChild(card); // Adiciona na ordem correta
+            });
+        }
+
+        // 3. Adiciona os "ouvintes" de evento
+        filterStatus.addEventListener('change', updateEquipmentGrid);
+        filterSort.addEventListener('change', updateEquipmentGrid);
+
+    });
+</script>
 
 </body>
 </html>

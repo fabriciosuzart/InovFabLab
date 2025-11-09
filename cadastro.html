@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>INOVFABLAB</title>
+
+    <link rel="icon" href="logo.png">
+    <style>
+        /* --- Estilos Gerais (Mesmo do seu site) --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f2f4fb;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* --- Cabeçalho e Navegação (Mesmo do seu site) --- */
+        header {
+            background-color:#007bff; 
+            padding: 15px 0;          
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+            width: 100%;
+            margin-bottom: 20px; 
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px; 
+        }
+        header .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-logo {
+            height: 30px;
+            width: auto;
+        }
+        header nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color:#fff;
+            font-weight: 500;
+        }
+        header nav a:hover {
+            color: #007bff; /* Ajuste para hover no header */
+        }
+
+        /* --- Estilos da Página Principal --- */
+        main h1 {
+            font-size: 2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        main p {
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        /* --- Estilos do Formulário (Reutilizado do agendamento) --- */
+        .auth-form { /* Renomeei para "auth-form" */
+            background-color: #ffffff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            max-width: 600px; /* Largura ideal para cadastro */
+            margin: 20px auto; /* Centraliza o formulário */
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box; 
+        }
+        
+        /* Botão de envio */
+        .submit-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 500;
+            width: 100%;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.2s ease;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* NOVO: Link de login */
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.95em;
+        }
+        .login-link a {
+            color: #007bff;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo"><img src="logo.png" alt="Logo Lab Inteligente" class="header-logo"> Lab Inteligente</div>
+            <nav>
+                <a href="site.html">Home</a>
+                <a href="assitente-ia.html">Assistente IA</a>
+                <a href="equipamentos.html">Equipamentos</a>
+                <a href="documentacao.html">Documentação</a>
+                <a href="contato.html">Contato</a>
+                <a href="cadastro.html">Cadastre-se</a>
+                </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <h1>Crie sua Conta</h1>
+            <p>Faça seu cadastro para acessar os recursos do laboratório.</p>
+
+            <form class="auth-form" id="cadastroForm">
+                
+                <div class="form-group">
+                    <label for="fullName">Nome Completo</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Digite seu nome" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail Institucional</label>
+                    <input type="email" id="email" name="email" placeholder="seu.nome@unisanta.br" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ra">RA (Matrícula)</label>
+                    <input type="text" id="ra" name="ra" placeholder="Digite seu RA" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Criar Senha</label>
+                    <input type="password" id="password" name="password" placeholder="Mínimo 8 caracteres" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Senha</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repita a senha" required>
+                </div>
+
+                <button type="submit" class="submit-button">Criar Conta</button>
+                
+                <div class="login-link">
+                    <p>Já tem uma conta? <a href="login.html">Faça login</a></p>
+                </div>
+            </form>
+
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('cadastroForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio real
+
+            // Pega os valores
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Validação simples de senha
+            if (password !== confirmPassword) {
+                alert('As senhas não conferem. Por favor, tente novamente.');
+                return; // Para a execução
+            }
+            
+            if (password.length < 8) {
+                 alert('A senha deve ter no mínimo 8 caracteres.');
+                 return; // Para a execução
+            }
+
+            // Simulação de sucesso
+            const nome = document.getElementById('fullName').value;
+            alert(`Cadastro realizado com sucesso, ${nome}! \n\n(Isto é uma simulação. Em um site real, os dados seriam enviados para um servidor.)`);
+            
+            // Limpa o formulário
+            this.reset();
+        });
+    </script>
+
+</body>
+</html>

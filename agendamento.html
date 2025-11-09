@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>INOVFABLAB</title>
+
+    <link rel="icon" href="logo.png">
+    <style>
+        /* --- Estilos Gerais --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f2f4fb;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Cabeçalho e Navegação --- */
+        header {
+            background-color:#007bff; 
+            padding: 15px 0;          
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+            width: 100%;
+            margin-bottom: 20px; 
+        }
+        
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px; 
+        }
+        header .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ffffff; /* ou a cor do seu texto da logo */
+            display: flex; /* <-- Torna o container da logo flexível */
+            align-items: center; /* <-- Alinha verticalmente a imagem e o texto */
+            gap: 10px; /* <-- Espaçamento entre a imagem e o texto */
+        }
+        .header-logo { /* <-- NOVO ESTILO PARA A IMAGEM DA LOGO */
+            height: 30px; /* Ajuste a altura conforme a sua logo */
+            width: auto; /* Mantém a proporção da imagem */
+        }
+
+        header nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color:#fff;
+            font-weight: 500;
+        }
+
+        header nav a:hover {
+            color: #007bff;
+        }
+
+        /* --- Seção Principal (Estilos originais) --- */
+        main h1 {
+            font-size: 2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        main p {
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        /* --- (Estilos dos cards, etc. - mantidos para consistência se necessário) --- */
+        /* ... (todos os outros estilos do seu site original estão aqui) ... */
+
+
+        /* --- Estilos do Formulário (NOVO) --- */
+        .schedule-form {
+            background-color: #ffffff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            max-width: 700px; /* Limita a largura do formulário */
+            margin: 20px auto; /* Centraliza o formulário */
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box; /* Garante que o padding não quebre o layout */
+        }
+        
+        /* Agrupa campos na mesma linha */
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        .form-row .form-group {
+            flex: 1; /* Faz os campos dividirem o espaço */
+        }
+
+        /* Botão de envio */
+        .submit-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 500;
+            width: 100%;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.2s ease;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo"><img src="logo.png" alt="Logo Lab Inteligente" class="header-logo"> Lab Inteligente</div>
+            <nav>
+                <a href="site.html">Home</a>
+                <a href="assitente-ia.html">Assistente IA</a>
+                <a href="equipamentos.html">Equipamentos</a>
+                <a href="documentacao.html">Documentação</a>
+                <a href="contato.html">Contato</a>
+                <a href="cadastro.html">Cadastre-se</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <h1>Agendamento Manual de Equipamento</h1>
+            <p>Selecione o equipamento, a data e o horário desejado para o seu uso.</p>
+
+            <form class="schedule-form" id="manualScheduleForm">
+                
+                <div class="form-group">
+                    <label for="userName">Seu Nome</label>
+                    <input type="text" id="userName" name="userName" placeholder="Digite seu nome completo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="equipment">Equipamento</label>
+                    <select id="equipment" name="equipment" required>
+                        <option value="" disabled selected>-- Selecione um equipamento --</option>
+                        <option value="finder01">Impressora 3D Finder 01</option>
+                        <option value="finder02">Impressora 3D Finder 02</option>
+                        <option value="laser">Cortadora a Laser</option>
+                        <option value="prototipadora">Prototipadora</option>
+                        <option value="bambuA1">Bambu Lab A1</option>
+                        <option value="bambuA2">Bambu Lab A2</option>
+                        <option value="microretifica">Micro Retífica</option>
+                        <option value="plotter">Plotter de recorte</option>
+                        <option value="x1carbon">X1 Carbon Combo - Impressora 3D</option>
+                        <option value="solda01">Estação de solda 01</option>
+                        <option value="solda02">Estação de solda 02</option>
+                        <option value="furadeira">Furadeira de bancada</option>
+                        <option value="serra">Serra tico-tico</option>
+                        <option value="costura">Máquina de Costura</option>
+                        <option value="parafusadeira">Parafusadeira e Furadeira a Bateria</option>
+                        <option value="lixadeira">Lixadeira portátil DEWALT</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="scheduleDate">Data</label>
+                        <input type="date" id="scheduleDate" name="scheduleDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="scheduleTime">Horário de Início</label>
+                        <input type="time" id="scheduleTime" name="scheduleTime" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-button">Agendar Horário</button>
+            </form>
+
+        </main>
+    </div>
+
+    <script>
+        // Adiciona o listener ao formulário
+        document.getElementById('manualScheduleForm').addEventListener('submit', function(event) {
+            // Impede o envio real do formulário (que faria a página recarregar)
+            event.preventDefault(); 
+            
+            // Pega os valores do formulário para o alerta
+            const equipmentName = document.getElementById('equipment').options[document.getElementById('equipment').selectedIndex].text;
+            const scheduleDate = document.getElementById('scheduleDate').value;
+            const scheduleTime = document.getElementById('scheduleTime').value;
+
+            // Formata a data para o padrão brasileiro (dd/mm/aaaa)
+            const dateParts = scheduleDate.split('-');
+            const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+
+            // Exibe uma mensagem de confirmação (simulação)
+            alert(`Agendamento confirmado! 🎉\n
+Equipamento: ${equipmentName}
+Data: ${formattedDate}
+Horário: ${scheduleTime}
+            
+(Isto é apenas uma simulação. Em um site real, os dados seriam enviados para um servidor.)`);
+            
+            // Limpa o formulário após o envio
+            this.reset();
+        });
+    </script>
+
+</body>
+</html>

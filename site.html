@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratório Inteligente</title>
+
+    <title>INOVFABLAB</title>
+
+    <link rel="icon" href="logo.png">
     <style>
         /* --- Estilos Gerais --- */
         body {
@@ -11,6 +14,7 @@
             background-color: #f2f4fb;
             margin: 0;
             color: #333;
+            line-height: 1.6; /* Melhora a legibilidade do texto */
         }
 
         .container {
@@ -19,351 +23,254 @@
             padding: 20px;
         }
 
-        /* --- Cabeçalho e Navegação --- */
+        /* --- Cabeçalho e Navegação (Original) --- */
         header {
             background-color:#007bff; 
-            padding: 15px 0;           
+            padding: 15px 0;          
             box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
             width: 100%;
             margin-bottom: 20px; 
         }
-        
-        
         header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 20px; 
-
         }
         header .logo {
             font-size: 1.5em;
             font-weight: bold;
-            color: #fff; /* ou a cor do seu texto da logo */
-            display: flex; /* <-- Torna o container da logo flexível */
-            align-items: center; /* <-- Alinha verticalmente a imagem e o texto */
-            gap: 10px; /* <-- Espaçamento entre a imagem e o texto */
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .header-logo { /* <-- NOVO ESTILO PARA A IMAGEM DA LOGO */
-            height: 30px; /* Ajuste a altura conforme a sua logo */
-            width: auto; /* Mantém a proporção da imagem */
+        .header-logo {
+            height: 30px;
+            width: auto;
         }
-
         header nav a {
             margin-left: 20px;
             text-decoration: none;
             color:#fff;
             font-weight: 500;
         }
-
         header nav a:hover {
             color: #007bff;
         }
 
-        /* --- Seção Principal --- */
+        /* --- Estilos da Página Principal --- */
         main h1 {
-            font-size: 2em;
-            font-weight: 600;
+            font-size: 2.5em; /* Título maior */
+            font-weight: 700;
             margin-bottom: 10px;
+            color: #222;
         }
-
-        main p {
-            color: #777;
+        main h2 {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #007bff;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        main .subtitle {
+            font-size: 1.2em;
+            color: #555;
             margin-bottom: 30px;
         }
 
-        /* --- Abas de Navegação --- */
+        /* --- Abas de Navegação (Original) --- */
         .tabs {
             margin-bottom: 30px;
         }
-
         .tab-button {
-            padding: 10px 20px;
+            padding: 12px 25px; /* Botões maiores */
             border: 1px solid #ccc;
             background-color: #fff;
             cursor: pointer;
-            font-size: 1em;
-            border-radius: 5px;
+            font-size: 1.1em;
+            border-radius: 8px;
             margin-right: 10px;
-            text-decoration: none; /* <-- ADICIONE ESTA LINHA */
+            text-decoration: none; 
+            color: #333;
+            font-weight: 500;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
         }
-
+        .tab-button:hover {
+             background-color: #f8f9fa;
+             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
         .tab-button.active {
             background-color: #007bff;
             color: white;
             border-color: #007bff;
         }
 
-        /* --- Grade de Equipamentos --- */
-        .equipment-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-        }
-
-        /* --- Card de Equipamento --- */
+        /* --- (Estilos dos Cards - Mantidos para consistência) --- */
         .card {
             background-color: #ffffff;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            text-align: center;
-            padding: 20px;
+            padding: 25px;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-bottom: 20px;
         }
-
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         }
 
-        .card img {
-            max-width: 80%;
-            height: 120px;
-            object-fit: contain;
-            margin-bottom: 15px;
+        /* NOVO: Classe para conteúdo de texto, baseada no .card */
+        .content-box {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: left; /* Alinha o texto à esquerda */
+        }
+        .content-box h3 {
+            font-size: 1.4em;
+            color: #007bff;
+            margin-top: 0;
+        }
+        .content-box p, .content-box li {
+            font-size: 1em;
+            color: #444;
         }
 
-        .card h3 {
-            margin: 10px 0;
-            font-size: 1.1em;
-            font-weight: 600;
+        /* NOVO: Estilo para a grade de "Como Começar" */
+        .journey-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
         }
 
-        /* --- Status do Equipamento --- */
-        .card .status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 0.9em;
-            margin-bottom: 20px;
+        /* NOVO: Estilo para a lista de regras */
+        .rules-list {
+            list-style: none; /* Remove bullets padrão */
+            padding-left: 0;
         }
-
-        .status .icon {
+        .rules-list li {
+            position: relative;
+            padding-left: 30px; /* Espaço para o ícone */
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        .rules-list li::before {
+            content: '⚠️'; /* Ícone de aviso */
+            position: absolute;
+            left: 0;
+            top: 0;
             font-size: 1.2em;
-        }
-
-        .status.available {
-            color: #28a745;
+            line-height: 1;
         }
         
-        .status.in-use {
-            color: #ffc107;
+        /* NOVO: Estilo para o vídeo responsivo */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* Proporção 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px; /* Arredonda o container do vídeo */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
-
-        /* --- Botão de Agendamento --- */
-        .card .schedule-button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            font-weight: 500;
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
+            height: 100%;
+            border: 0;
         }
-
-        .card .schedule-button:hover {
-            background-color: #0056b3;
-        }
-
-        /* --- Paginação --- */
-        .pagination {
+        
+        /* NOVO: Estilo para o Slogan */
+        .slogan {
             text-align: center;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #007bff;
             margin-top: 40px;
         }
+
     </style>
 </head>
 <body>
 
     <header>
         <div class="container">
-            <div class="logo"><img src="inovfablab_logo.png" alt="Logo Lab Inteligente" class="header-logo"> Lab Inteligente</div>
+            <div class="logo"><img src="logo.png" alt="Logo Lab Inteligente" class="header-logo"> Lab Inteligente</div>
             <nav>
                 <a href="site.html">Home</a>
                 <a href="assitente-ia.html">Assistente IA</a>
                 <a href="equipamentos.html">Equipamentos</a>
                 <a href="documentacao.html">Documentação</a>
                 <a href="contato.html">Contato</a>
+                <a href="cadastro.html">Cadastre-se</a>
             </nav>
         </div>
     </header>
 
     <div class="container">
         <main>
-            <h1>Bem-vindo ao Futuro do Laboratório Inteligente</h1>
-            <p>Interaja com o nosso assistente de IA ou navegue pelos equipamentos disponíveis.</p>
+            <h1>Bem-vindo ao INOVFABLAB!</h1>
+            <p class="subtitle">O seu espaço para criar, inovar e construir o futuro.</p>
 
             <div class="tabs">
                 <a href="assitente-ia.html" class="tab-button active">Interagir com IA</a>
-                <button class="tab-button">Agendamento Manual</button>
+                <a href="equipamentos.html" class="tab-button active">Ver Equipamentos</a>
+                <a href="cadastro.html" class="tab-button active">Cadastre-se Agora</a>
             </div>
 
-            <div class="equipment-grid">
-                <div class="card">
-                    <img src="impressora_3D_finder_01.jpg" alt="Impressora 3D Finder 01">
-                    <h3>Impressora 3D Finder 01</h3>
-                    <div class="status available">
-                        <span class="icon">✔</span>
-                        <span>Disponível para uso</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
-                </div>
+            <div class="content-box">
+                <h3>O que é o INOVFABLAB?</h3>
+                <p>Somos um laboratório de fabricação digital (FabLab) onde a criatividade encontra as ferramentas para se transformar em realidade. Aqui, estudantes, pesquisadores e entusiastas podem desenvolver projetos, prototipar ideias e aprender na prática.</p>
+            </div>
 
-                <div class="card">
-                    <img src="impressora_3D_finder_02.jpg" alt="Impressora 3D Finder 02">
-                    <h3>Impressora 3D Finder 02</h3>
-                    <div class="status available">
-                        <span class="icon">✔</span>
-                        <span>Disponível para uso</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
-                </div>
-
-                <div class="card">
-                    <img src="cortadora_a_laser.jpeg" alt="Cortadora a Laser">
-                    <h3>Cortadora a Laser</h3>
-                    <div class="status in-use">
-                        <span class="icon">🕒</span>
-                        <span>Em uso, aguarde</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
-                </div>
-
-                <div class="card">
-                    <img src="prototipadora.png" alt="Prototipadora">
-                    <h3>Prototipadora</h3>
-                    <div class="status in-use">
-                        <span class="icon">🕒</span>
-                        <span>Em uso, aguarde</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
-                </div>
-
-                <div class="card">
-                    <img src="Bambu_LAB_01.png" alt="Bambu Lab A1">
-                    <h3>Bambu Lab A1</h3>
-                    <div class="status available">
-                        <span class="icon">✔</span>
-                        <span>Disponível para uso</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
-                </div>
-
-                <div class="card">
-                    <img src="Bambu_LAB_02.png" alt="Bambu Lab A2">
-                    <h3>Bambu Lab A2</h3>
-                    <div class="status available">
-                        <span class="icon">✔</span>
-                        <span>Disponível para uso</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
+            <h2>Sua Jornada para Criar</h2>
+            <div class="journey-grid">
+                <div class="content-box">
+                    <h3>1. Cadastre-se e Treine</h3>
+                    <p>O primeiro passo é se cadastrar. Após o cadastro, explore nossa lista de treinamentos online para os equipamentos que você deseja usar, como impressoras 3D, cortadoras a laser e muito mais.</p>
                 </div>
                 
-                <div class="card">
-                    <img src="micro_retífica.jpg" alt="Micro Retífica">
-                    <h3>Micro Retífica</h3>
-                    <div class="status available">
-                        <span class="icon">✔</span>
-                        <span>Disponível para uso</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
-                </div>
-
-                <div class="card">
-                    <img src="plotter_de_recorte.jpg" alt="Plotter de recorte">
-                    <h3>Plotter de recorte</h3>
-                    <div class="status in-use">
-                        <span class="icon">🕒</span>
-                        <span>Em uso, aguarde</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
+                <div class="content-box">
+                    <h3>2. Valide e Agende</h3>
+                    <p>Depois de concluir o treinamento online, você agendará uma validação presencial com um de nossos responsáveis. Com a autorização, você ganha acesso para reservar os equipamentos diretamente pelo sistema.</p>
                 </div>
                 
-                 <div class="card">
-                    <img src="X1_CARBON_COMBO_IMPRESSORA_3D.jpg" alt="X1 Carbon Combo - Impressora 3D">
-                    <h3>X1 Carbon Combo - Impressora 3D</h3>
-                    <div class="status available">
-                        <span class="icon">✔</span>
-                        <span>Disponível para uso</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
-                </div>
-
-                <div class="card">
-                    <img src="ESTACAO_DE_SOLDA.jpg" alt="Estação de solda">
-                    <h3>Estação de solda 01</h3>
-                    <div class="status available">
-                        <span class="icon">✔</span>
-                        <span>Dísponivel para uso</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
-                </div>
-
-                <div class="card">
-                    <img src="ESTACAO_DE_SOLDA.jpg" alt="Estação de solda">
-                    <h3>Estação de solda 02</h3>
-                    <div class="status available">
-                        <span class="icon">✔</span>
-                        <span>Dísponivel para uso</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
-                </div>
-
-                <div class="card">
-                    <img src="furadeira_de_bancada.jpg" alt="Furadeira de bancada">
-                    <h3>Furadeira de bancada</h3>
-                    <div class="status in-use">
-                        <span class="icon">🕒</span>
-                        <span>Em uso, aguarde</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
-                </div>
-
-                <div class="card">
-                    <img src="Serra_tico-tico_bosch.jpg" alt="serra tico tico">
-                    <h3>Serra tico-tico</h3>
-                    <div class="status in-use">
-                        <span class="icon">🕒</span>
-                        <span>Em uso, aguarde</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
-                </div>
-
-                 <div class="card">
-                    <img src="maquina_de_costura.jpg" alt="Máquina de Costura">
-                    <h3>Máquina de Costura</h3>
-                    <div class="status available">
-                        <span class="icon">✔</span>
-                        <span>Disponível para uso</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
-                </div>
-
-                <div class="card">
-                    <img src="Parafusadeira_e_Furadeira_Bateria.jpg" alt="Parafusadeira e Furadeira a Bateria">
-                    <h3>Parafusadeira e Furadeira a Bateria</h3>
-                    <div class="status available">
-                        <span class="icon">✔</span>
-                        <span>Disponível para uso</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
-                </div>
-
-                <div class="card">
-                    <img src="Lixadeira_portátil_DEWALT.jpg" alt="Lixadeira portátil DEWALT">
-                    <h3>Lixadeira portátil DEWALT</h3>
-                    <div class="status available">
-                        <span class="icon">✔</span>
-                        <span>Disponível para uso</span>
-                    </div>
-                    <button class="schedule-button">Agendar</button>
+                <div class="content-box">
+                    <h3>3. Crie e Compartilhe</h3>
+                    <p>Com o acesso liberado, o laboratório é seu! Reserve seus horários, desenvolva seus projetos e não se esqueça de compartilhar suas criações na Galeria de Projetos para inspirar outros e ganhar créditos para mais agendamentos.</p>
                 </div>
             </div>
+            
+            <h2>Conheça o Espaço</h2>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/KLfAyKi_aK4" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+                </iframe>
+            </div>
+
+            <h2>Aviso Importante</h2>
+            <div class="content-box">
+                <ul class="rules-list">
+                    <li>É obrigatório deixar um documento de identificação na recepção para utilizar qualquer equipamento.</li>
+                    <li>Chegue com no mínimo 10 minutos de antecedência para preparar seu material e fazer o login.</li>
+                    <li>Reservas possuem tolerância de 10 minutos de atraso. Após esse período, o horário será disponibilizado para outros usuários presentes no laboratório.</li>
+                    <li>É estritamente proibida a entrada com bermuda, chinelos, saias, vestidos ou regatas, visando a sua segurança.</li>
+                    <li>O INOVFABLAB não se responsabiliza por objetos ou materiais pessoais deixados no laboratório.</li>
+                </ul>
+            </div>
+
+            <p class="slogan">Somos todos INOVFABLAB, Somos todos UNISANTA!</p>
 
         </main>
     </div>
-
 </body>
 </html>
