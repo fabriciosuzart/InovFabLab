@@ -1,0 +1,23 @@
+INOVFABLAB é uma oficina de fabricação digital onde podemos usar máquinas de corte, impressoras 3D, para trabalhar em vários materiais: plástico, madeira, papelão, vinil, para criar qualquer tipo de objeto através de desenho assistido por computador ou eletrônica. Mas o Fab Lab também é um local de troca de habilidades técnicas.
+
+O INOVFABLAB é um espaço permanente: aberto a todos, oferece a oportunidade de criar objetos, compartilhar suas habilidades e aprender com os mediadores do Fab Lab e outros usuários.
+
+O treinamento no Fab Lab é baseado em projetos e compartilhamento de conhecimento: você deve participar da capitalização do conhecimento e da instrução de outros usuários.
+
+Ler os termos e condições do FabLab 
+
+Localizado na Universidade Santa Cecilia em Santos SP
+
+O QUE É UM FABLAB?
+Um fablab (do inglês "Fabrication Laboratory"), é um laboratório de fabricação digital que nasceu com o principal intuito de aproximar a comunidade acadêmica a equipamentos de caráter semi-industrial. A ideia se expandiu e atualmente ele é utilizado por todos os públicos, ou seja, qualquer pessoa pode ter acesso a um fablab.
+
+O fablab foi originalmente criado no Instituto de Tecnologia de Massachusetts (MIT). Nele, estudantes, pesquisadores, educadores, inventores podem ampliar seus horizontes de ideação e por em prática todo seu potencial de inovação e criação, o fablab é presente em mais de 1500 cidades espalhadas por todo o mundo.
+
+SOBRE O INOVFABLAB
+O InovFabLab é um laboratório de fabricação digital da Universidade Santa Cecília, também utilizado principalmente na troca de conhecimento. Atrás do site de gerenciamento do laboratório, o FabManager, ao se cadstrar, é possível visualizar todos os projetos já criados e ainda colocar o seu próprio projetos para exposição. O InovFabLab além de ser um espaço para desenvolver projetos, é principalmente um lugar para se ensinar e aprender.
+
+Dentro do InovFabLab, é incentivada a cultura DIY (Do It Yourself, do inglês, faça você mesmo), ou seja, todos os equipamentos são operados pelo próprio usuário, fazendo que ele percorra todas as etapas de um projeto, desde a ideia até o resultado. Para isso, o usuário deve realizar os treinamentos de capacitação que acontecem periodicamente.
+
+O laboratório InovFabLab proporciona utilizar desde máquinas de corte a laser até impressoras 3D, plotters de recorte, routers e fresadoras de bancada para confecção de circuitos impressos. Com isso é possível trabalhar em vários tipos de materiais, tais como plástico, madeira, papelão, vinil. Sendo assim possível criar qualquer tipo de objetado atrás de um desenho criado no computador.
+Como característico em um FabLab, o InovFabLab é equipado com 5 impressoras do tipo FDM, sendo 3 da fabricante FlashForge, utilizada para passar todos os fundamentos de impressão 3D, também conta com uma impressora do fabricante FlexBras que possui capacidade de impressão de até 2 materiais diferentes. E por fim, o laboratório também possui uma impressora da ZMoprh, que tem capacidade de multifunção, tais como: fresadora, extrusora de 1 material e 2 materiais, gravadora a laser e extrusora de materiais viscosos.
+O laboratório também possui uma cortadora a laser de alta precisão capaz de cortar e realizar gravações em materiais como acrílico, plástico, madeira e também consegue gravar em alumínio anodizado. Possui muita versatilizade, não é necessário um alto nível de conhecimento técnico para operá-la e tem capacidade de gerar resultados extraordinários.

@@ -1,4 +1,9 @@
+/* src/App.css */
+
 .main-content {
-  padding: 2rem;
-  text-align: center;
+  /* Removemos o padding global para o chat poder ocupar a tela toda */
+  padding: 0; 
+  width: 100%;
+  /* O text-align center atrapalha o layout flex do chat, melhor tirar */
+  text-align: left; 
 }

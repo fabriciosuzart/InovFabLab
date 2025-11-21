@@ -1,0 +1,17 @@
+Todos os quipamentos do Inovfablab abaixo:
+1- Impressora 3D Finder 01 
+2- Impressora 3D Finder 02
+3-Cortadora a Laser
+4- Prototipadora
+5- Bambu Lab A1
+6- Bambu Lab A2
+7- Micro Retífica
+8- Plotter de Recorte
+9- X1 Carbon Combo
+10- Estação de Solda 01
+11- Estação de Solda 02
+12- Furadeira de Bancada
+13- Serra Tico-Tico
+14- Máquina de Costura
+15- Parafusadeira
+16- Lixadeira Portátil

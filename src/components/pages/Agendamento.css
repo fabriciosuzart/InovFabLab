@@ -1,0 +1,120 @@
+/* Container que centraliza tudo verticalmente e horizontalmente */
+.agendamento-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    min-height: calc(100vh - 80px); /* Altura total menos navbar */
+    background-color: #f2f4fb; /* Garante o fundo cinza claro */
+}
+
+/* O Cartão Branco do Formulário */
+.schedule-card {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* Sombra suave */
+    width: 100%;
+    max-width: 600px; /* Largura máxima para não ficar esticado */
+}
+
+/* Cabeçalho dentro do Card */
+.schedule-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.schedule-header h1 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.schedule-header p {
+    color: #7f8c8d;
+    margin-top: 8px;
+}
+
+/* Estilos dos Inputs e Labels */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #34495e;
+    font-size: 0.95rem;
+}
+
+/* Inputs (Select, Date, Time) */
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0; /* Borda sutil */
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: border-color 0.2s, background-color 0.2s;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+/* Efeito ao clicar no campo */
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* Linha para Data e Hora ficarem lado a lado */
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-row .form-group {
+    flex: 1; /* Ocupam espaço igual */
+}
+
+/* Botão de Enviar */
+.submit-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-top: 10px;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}
+
+.submit-button:active {
+    transform: scale(0.98); /* Pequeno efeito de clique */
+}
+
+/* Responsividade para Celular */
+@media (max-width: 600px) {
+    .schedule-card {
+        padding: 25px;
+        margin: 0 15px; /* Margem lateral no celular */
+    }
+
+    .form-row {
+        flex-direction: column; /* Data e Hora um embaixo do outro no celular */
+        gap: 0;
+    }
+}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // 1. Importe o Link
+import { Link } from 'react-router-dom';
 import './Navbar.css';
 import logoImage from '../assets/images/logofablab.png'; 
 
@@ -40,6 +40,12 @@ const Navbar: React.FC = () => {
           <li className="nav-item">
             <Link to="/contato" className="nav-link" onClick={closeMobileMenu}>
               Contato
+            </Link>
+          </li>
+          {/* NOVO ITEM ADICIONADO AQUI 👇 */}
+          <li className="nav-item">
+            <Link to="/login" className="nav-link login-btn" onClick={closeMobileMenu}>
+              Login
             </Link>
           </li>
         </ul>
