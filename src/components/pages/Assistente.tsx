@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './Assistente.css';
 
 interface Message {
-  id: number;
+  id: string | number; 
   sender: 'user' | 'ai';
   text: string;
 }
@@ -62,53 +62,63 @@ const Assistente: React.FC = () => {
     }]);
   };
 
-  // --- ENVIO DE MENSAGEM ---
+  // --- NOVA FUNÇÃO DE ENVIO COM STREAMING ---
   const handleSend = async (textOverride?: string) => {
     const textToSend = typeof textOverride === 'string' ? textOverride : input;
 
     if (!textToSend || !textToSend.trim()) return;
 
-    const userMessage: Message = { id: Date.now(), sender: 'user', text: textToSend };
-    setMessages(prev => [...prev, userMessage]);
+    // Gera IDs únicos baseados no tempo + texto aleatório para evitar conflitos
+    const timestamp = Date.now();
+    const userMsgId = `user-${timestamp}`;
+    const aiMsgId = `ai-${timestamp}`;
+
+    // 1. Adiciona mensagem do usuário
+    setMessages(prev => [...prev, { id: userMsgId, sender: 'user', text: textToSend }]);
+    
+    // 2. Adiciona IMEDIATAMENTE o balão da IA (vazio)
+    setMessages(prev => [...prev, { id: aiMsgId, sender: 'ai', text: '' }]);
     
     setInput('');
     setIsLoading(true);
-
-    // Cria controlador de cancelamento
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
 
     try {
       const response = await fetch('http://localhost:3000/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: textToSend }),
-        signal: controller.signal
       });
 
-      const data = await response.json();
-      const replyText = data.reply || "Não entendi.";
+      if (!response.body) throw new Error("Sem corpo na resposta");
 
-      const aiMessage: Message = { id: Date.now() + 1, sender: 'ai', text: replyText };
-      setMessages(prev => [...prev, aiMessage]);
-      
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let fullText = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        fullText += chunk;
+
+        // Atualiza APENAS o balão com o ID da IA
+        setMessages(prev => prev.map(msg => 
+            msg.id === aiMsgId ? { ...msg, text: fullText } : msg
+        ));
+      }
+
       if (isSpeechEnabled) {
-        speak(replyText);
+        speak(fullText);
       }
 
-    } catch (error: any) {
-      if (error.name === 'AbortError') {
-        console.log('Requisição cancelada.');
-      } else {
-        setMessages(prev => [...prev, { id: Date.now() + 1, sender: 'ai', text: "⚠️ Erro de conexão com o cérebro local." }]);
-      }
+    } catch (error) {
+      console.error(error);
+      setMessages(prev => prev.map(msg => 
+        msg.id === aiMsgId ? { ...msg, text: "Erro na conexão." } : msg
+      ));
     } finally {
-      // Só remove o loading se o controller atual for o mesmo que iniciou
-      // (Isso evita bugs se o usuário clicar em Parar e depois Enviar muito rápido)
-      if (abortControllerRef.current === controller) {
-        setIsLoading(false);
-        abortControllerRef.current = null;
-      }
+      setIsLoading(false);
     }
   };
 
@@ -118,18 +128,25 @@ const Assistente: React.FC = () => {
       alert("Use o Google Chrome para reconhecimento de voz.");
       return;
     }
-    const recognition = new window.webkitSpeechRecognition();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const recognition = new (window as any).webkitSpeechRecognition();
     recognition.lang = 'pt-BR';
     recognition.continuous = false; 
     recognition.interimResults = true; 
 
     recognition.onstart = () => setIsListening(true);
+    
+    // Garante que o estado visual do microfone desligue
     recognition.onend = () => setIsListening(false);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
       setInput(transcript); 
+      
       if (event.results[0].isFinal) {
+        recognition.stop(); // <--- FORÇA O MICROFONE A PARAR
+        setIsListening(false);
         handleSend(transcript);
       }
     };
@@ -149,22 +166,24 @@ const Assistente: React.FC = () => {
         <div className="chat-history">
           {messages.map((msg) => (
             <div key={msg.id} className={`message ${msg.sender}`}>
-              <div className="avatar">{msg.sender === 'ai' ? 'IA' : 'VC'}</div>
-              <div className="message-content">
-                <p>{msg.text}</p>
-                {msg.sender === 'ai' && (
-                  <button type="button" className="speak-btn" onClick={() => speak(msg.text)} title="Ouvir">🔊</button>
+            <div className="avatar">{msg.sender === 'ai' ? 'IA' : 'VC'}</div>
+            <div className="message-content">
+              {/* Se for IA e o texto estiver vazio, mostra o indicador, senão mostra o texto */}
+              <p>
+                {msg.sender === 'ai' && msg.text === '' ? (
+                    <span className="blinking-cursor">Pensando... 🧠</span>
+                ) : (
+                    msg.text
                 )}
-              </div>
+              </p>
+              
+              {msg.sender === 'ai' && msg.text !== '' && (
+                <button type="button" className="speak-btn" onClick={() => speak(msg.text)} title="Ouvir">🔊</button>
+              )}
             </div>
-          ))}
+          </div>
+        ))}
           
-          {isLoading && (
-            <div className="message ai">
-              <div className="avatar">IA</div>
-              <div className="message-content"><p>Pensando...</p></div>
-            </div>
-          )}
           <div ref={chatEndRef} />
         </div>
 

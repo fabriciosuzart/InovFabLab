@@ -94,6 +94,9 @@
     line-height: 1.5;
     color: #333;
     font-size: 1rem;
+    margin: 0;
+    white-space: pre-wrap; 
+    line-height: 1.5;
 }
 
 .message.user .message-content {
@@ -221,6 +224,18 @@
 .send-btn:disabled { 
     background-color: #ccc; 
     cursor: default; 
+}
+
+.blinking-cursor {
+  font-style: italic;
+  color: #888;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
 }
 
 /* Botão Parar */
