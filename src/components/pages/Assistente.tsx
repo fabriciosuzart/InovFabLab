@@ -55,6 +55,10 @@ const Assistente: React.FC = () => {
 
     // 3. Atualiza a tela
     setIsLoading(false);
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage?.sender === 'ai' && lastMessage?.text === '') {
+      messages.pop();
+    }
     setMessages(prev => [...prev, { 
       id: Date.now(), 
       sender: 'ai', 
@@ -83,10 +87,13 @@ const Assistente: React.FC = () => {
     setIsLoading(true);
 
     try {
+      abortControllerRef.current = new AbortController();
+
       const response = await fetch('http://localhost:3000/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: textToSend }),
+        signal: abortControllerRef.current.signal,
       });
 
       if (!response.body) throw new Error("Sem corpo na resposta");
@@ -112,7 +119,9 @@ const Assistente: React.FC = () => {
         speak(fullText);
       }
 
-    } catch (error) {
+    } catch (error: any) {
+      if (error.name === "AbortError") return;
+
       console.error(error);
       setMessages(prev => prev.map(msg => 
         msg.id === aiMsgId ? { ...msg, text: "Erro na conexão." } : msg

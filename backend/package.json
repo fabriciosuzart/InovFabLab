@@ -17,6 +17,7 @@
     "jsonwebtoken": "^9.0.2",
     "mammoth": "^1.11.0",
     "node-fetch": "^3.3.2",
+    "ollama": "^0.6.3",
     "pdf-parse": "^2.4.5",
     "sqlite3": "^5.1.7"
   }
