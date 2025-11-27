@@ -1,14 +1,14 @@
 /* Variáveis de cor (mantidas do original) */
 :root {
-  --primary-color: #007BFF;
-  --dark-color: #212529;
+  --primary-color: #0080c0;
+  --dark-color: #12283B;
   --light-color: #f8f9fa;
   --text-color: #ffffff;
   --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
 .navbar {
-  background-color: #20262B;
+  background-color: #12283B;
   height: 80px;
   display: flex;
   justify-content: center; /* Centraliza o container filho */

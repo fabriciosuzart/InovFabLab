@@ -1,168 +1,199 @@
-/* Container Principal */
+/* Página de equipamentos */
 .equipment-page {
-    padding-top: 20px;
+  padding: 40px 40px 60px;
+  background: radial-gradient(circle at top, #f6f7fb 0, #d4d7dd 40%, #b8bcc5 100%);
+  min-height: calc(100vh - 80px);
 }
 
-/* --- Cabeçalho da Página (Flexbox) --- */
-.page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 40px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #e0e0e0;
-    flex-wrap: wrap; /* Permite quebrar linha no celular */
-    gap: 20px;
+/* Cabeçalho simples */
+.equipment-header {
+  max-width: 1200px;
+  margin: 0 auto 32px;
 }
 
-.header-title h1 {
-    margin: 0;
-    font-size: 2rem;
-    color: #2c3e50;
+.equipment-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 4px;
 }
 
-.header-title p {
-    margin: 5px 0 0 0;
-    color: #7f8c8d;
+.equipment-header p {
+  color: #4b5563;
 }
 
-/* --- Controles de Filtro --- */
-.filter-controls {
-    display: flex;
-    gap: 15px;
-}
-
-.filter-group select {
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    background-color: white;
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.filter-group select:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-}
-
-/* --- Grid de Cards --- */
+/* Grid 4 colunas (responsivo) */
 .equipment-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
-    padding-bottom: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
 }
 
-/* --- Estilo do Card --- */
-.card {
-    background-color: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    overflow: hidden; /* Importante para a imagem não sair da borda */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
+/* Card de equipamento */
+.equipment-card {
+  background-color: #ffffff;
+  border-radius: 24px;
+  padding: 20px 18px 18px;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+/* Imagem */
+.equipment-image-wrapper {
+  width: 100%;
+  height: 180px;
+  border-radius: 18px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 16px;
 }
 
-/* Área da Imagem */
-.card-image {
-    position: relative; /* Para posicionar a badge */
-    height: 200px;
-    background-color: #f8f9fa;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+.equipment-image-wrapper img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
-.card img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+/* Nome da máquina */
+.equipment-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 14px 4px;
 }
 
-/* Badge de Status (Etiqueta) */
-.status-badge {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+/* Status (ícone + texto) */
+.equipment-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px 0;
+  padding: 4px 16px 4px -2px;
+  border-radius: 999px;
+  background-color: #e5e7eb;
+  height: 40px;
+  box-sizing: border-box;
 }
 
-.status-badge.available {
-    background-color: #d4edda;
-    color: #155724;
+/* círculo colorido atrás do ícone */
+.status-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.status-badge.in-use {
-    background-color: #fff3cd;
-    color: #856404;
+.status-svg {
+  width: 28px;
+  height: 28px;
+  stroke: currentColor;
+  fill: none;
 }
 
-/* Conteúdo do Card */
-.card-content {
-    padding: 20px;
-    text-align: center;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.status-icon.available {
+  background-color: #28A745;
+  color: #FFFFFF;
+}
+.status-icon.in-use {
+  background-color: #FF7B07;
+  color: #FFFFFF;
+}
+.status-icon.maintenance {
+  background-color: #921A1B;
+  color: #FFFFFF;
 }
 
-.card h3 {
-    margin: 0 0 15px 0;
-    font-size: 1.2rem;
-    color: #333;
-    font-weight: 600;
+.status-text {
+  display: flex;
+  flex-direction: column;
 }
 
-/* Botão de Agendar */
-.schedule-button {
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: background-color 0.2s;
-    display: block;
-    width: 100%;
+.status-label {
+  font-size: 0.85rem;
+  color: #374151;
 }
 
-.schedule-button:hover {
-    background-color: #0056b3;
+/* Botões */
+.equipment-button {
+  margin-top: 14px;
+  align-self: center;
+  padding: 8px 30px;
+  border-radius: 999px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease,
+              box-shadow 0.15s ease,
+              background-color 0.15s ease;
 }
 
-/* Responsividade para Mobile */
-@media (max-width: 768px) {
-    .page-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .filter-controls {
-        width: 100%;
-        justify-content: space-between;
-    }
 
-    .filter-group {
-        flex: 1;
-    }
+.equipment-button.primary {
+  background-color: #0080c0;
+  color: #ffffff;
+}
 
-    .filter-group select {
-        width: 100%;
-    }
+.equipment-button.primary:hover {
+  background-color: #006ca3;
+  transform: translateY(-1px);
+}
+
+.equipment-button.training {
+  background-color: #E0A21C;
+  color: #FFFFFF;
+}
+
+.equipment-button.training:hover {
+  background-color: #f59e0b;
+  transform: translateY(-1px);
+}
+
+.equipment-button.disabled-button {
+  background-color: #c0c0c0;
+  color: #374151;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+  transform: none;
+}
+
+
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .equipment-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .equipment-page {
+    padding: 24px 16px 40px;
+  }
+
+  .equipment-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .equipment-grid {
+    grid-template-columns: 1fr;
+  }
 }

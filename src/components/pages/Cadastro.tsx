@@ -1,88 +1,177 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './Cadastro.css'; // Pode reusar o Login.css se quiser, pois são iguais
+import { useNavigate } from 'react-router-dom';
+import './Cadastro.css';
 
 const Cadastro: React.FC = () => {
-    const [formData, setFormData] = useState({
-        fullName: '',
-        email: '',
-        ra: '',
-        password: '',
-        confirmPassword: ''
-    });
-    const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    fullName: '',
+    ra: '',
+    phone: '',
+    institutionalEmail: '',
+    password: '',
+    confirmPassword: '',
+  });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({...formData, [e.target.id]: e.target.value});
-    };
+  const navigate = useNavigate();
 
-    const handleRegister = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (formData.password !== formData.confirmPassword) {
-            return alert('As senhas não conferem.');
-        }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
 
-        try {
-            const response = await fetch('http://localhost:3000/api/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    fullName: formData.fullName,
-                    email: formData.email,
-                    ra: formData.ra,
-                    password: formData.password
-                })
-            });
-            const data = await response.json();
+    // RA: apenas números e máx. 6 dígitos
+    if (id === 'ra') {
+      const onlyDigits = value.replace(/\D/g, '').slice(0, 6);
+      setFormData(prev => ({ ...prev, ra: onlyDigits }));
+      return;
+    }
 
-            if (response.ok) {
-                alert('Cadastro realizado! Faça login.');
-                navigate('/login');
-            } else {
-                alert('Erro: ' + data.error);
-            }
-        } catch (error) {
-            alert('Erro de conexão com o servidor.');
-        }
-    };
+    setFormData(prev => ({ ...prev, [id]: value }));
+  };
 
-    return (
-        <div className="auth-container">
-            <main>
-                <h1 style={{textAlign: 'center'}}>Crie sua Conta</h1>
-                <p style={{textAlign: 'center', color: '#777'}}>Faça seu cadastro para acessar os recursos.</p>
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-                <form className="auth-form" onSubmit={handleRegister}>
-                    <div className="form-group">
-                        <label htmlFor="fullName">Nome Completo</label>
-                        <input type="text" id="fullName" value={formData.fullName} onChange={handleChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="email">E-mail Institucional</label>
-                        <input type="email" id="email" value={formData.email} onChange={handleChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="ra">RA (Matrícula)</label>
-                        <input type="text" id="ra" value={formData.ra} onChange={handleChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Criar Senha</label>
-                        <input type="password" id="password" value={formData.password} onChange={handleChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="confirmPassword">Confirmar Senha</label>
-                        <input type="password" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
-                    </div>
+    // Validação RA: exatamente 6 números
+    if (formData.ra.length !== 6) {
+      alert('O RA deve conter exatamente 6 números.');
+      return;
+    }
 
-                    <button type="submit" className="submit-button">Criar Conta</button>
-                    
-                    <div className="auth-link">
-                        <p>Já tem uma conta? <Link to="/login">Faça login</Link></p>
-                    </div>
-                </form>
-            </main>
+    if (formData.password !== formData.confirmPassword) {
+      alert('As senhas não coincidem.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.institutionalEmail, // vai como e-mail para o back
+          ra: formData.ra,
+          password: formData.password,
+          phone: formData.phone, // por enquanto o back ignora, mas já mandamos
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Cadastro realizado com sucesso!');
+        navigate('/login');
+      } else {
+        alert('Erro: ' + (data.error || 'Erro ao cadastrar.'));
+      }
+    } catch (error) {
+      alert('Erro de conexão com o servidor.');
+    }
+  };
+
+  return (
+    <div className="signup-page">
+      <div className="signup-card">
+        {/* Lado esquerdo – formulário */}
+        <div className="signup-content">
+          <header className="signup-header">
+            <button
+              type="button"
+              className="back-button"
+              onClick={() => navigate('/login')}
+            >
+              ←
+            </button>
+            <h1 className="signup-title">Cadastro</h1>
+          </header>
+
+          <form className="signup-form" onSubmit={handleRegister}>
+            <div className="signup-field">
+              <label htmlFor="fullName">Nome</label>
+              <input
+                type="text"
+                id="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                placeholder="Inserir nome completo"
+                required
+              />
+            </div>
+
+            <div className="signup-row">
+              <div className="signup-field">
+                <label htmlFor="ra">RA</label>
+                <input
+                  type="text"
+                  id="ra"
+                  value={formData.ra}
+                  onChange={handleChange}
+                  placeholder="Inserir RA"
+                  required
+                />
+              </div>
+
+              <div className="signup-field">
+                <label htmlFor="phone">Número de telefone</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="Inserir número"
+                />
+              </div>
+            </div>
+
+            <div className="signup-field">
+              <label htmlFor="institutionalEmail">E-mail Institucional</label>
+              <input
+                type="email"
+                id="institutionalEmail"
+                value={formData.institutionalEmail}
+                onChange={handleChange}
+                placeholder="Inserir e-mail"
+                required
+              />
+            </div>
+
+            <div className="signup-row">
+              <div className="signup-field">
+                <label htmlFor="password">Senha</label>
+                <input
+                  type="password"
+                  id="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Criar senha"
+                  required
+                />
+              </div>
+
+              <div className="signup-field">
+                <label htmlFor="confirmPassword">Confirmar senha</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Repetir senha"
+                  required
+                />
+              </div>
+            </div>
+
+            <button type="submit" className="signup-button">
+              Cadastrar
+            </button>
+          </form>
         </div>
-    );
+
+        <div className="signup-image-panel">
+          {/* Quando tiver a arte, pode colocar um <img /> aqui */}
+          {/* <img src="/images/cadastro-side.jpg" alt="Cadastro InovFabLab" /> */}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Cadastro;

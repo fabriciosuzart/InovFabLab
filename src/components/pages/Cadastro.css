@@ -35,7 +35,7 @@ main p {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     
     /* Acento de cor no topo */
-    border-top: 6px solid #007bff;
+    border-top: 6px solid #0080c0;
     
     width: 100%;
     max-width: 450px;
@@ -68,7 +68,7 @@ main p {
 }
 
 .form-group input:focus {
-    border-color: #007bff;
+    border-color: #0080c0;
     background-color: #fff;
     outline: none;
     box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15);
@@ -76,7 +76,7 @@ main p {
 
 /* Botão com Gradiente */
 .submit-button {
-    background: linear-gradient(to right, #007bff, #0056b3); /* Gradiente no botão */
+    background: linear-gradient(to right, #0080c0, #0056b3); /* Gradiente no botão */
     color: white;
     border: none;
     padding: 16px;
@@ -103,7 +103,7 @@ main p {
 }
 
 .auth-link a {
-    color: #007bff;
+    color: #0080c0;
     font-weight: 700;
     text-decoration: none;
 }

@@ -1,113 +1,154 @@
-/* Centraliza na tela */
-.auth-container {
-    min-height: calc(100vh - 80px);
-    display: flex;
+/* Página inteira com imagem de fundo + overlay azul */
+.login-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+
+  background:
+    linear-gradient(rgba(0, 128, 192, 0.6), rgba(0, 128, 192, 0.6)),
+    url('/public/background.png') center/cover no-repeat;
+}
+
+/* Card principal (branco, com cantos arredondados) */
+.login-card {
+  width: 100%;
+  max-width: 960px;
+  background-color: #f8fafc;
+  border-radius: 24px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+}
+
+/* Painel esquerdo – por enquanto só o cinza #7F7F7F */
+.login-image-panel {
+  flex: 0 0 40%;
+  background-color: #7f7f7f;
+  border-radius: 24px 0 0 24px;
+}
+
+.login-image-panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Lado direito do card (formulário) */
+.login-content {
+  flex: 1;
+  padding: 48px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Título "Log in" */
+.login-title {
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 32px;
+}
+
+/* Formulário */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Campo (label + input) */
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.login-field label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.login-field input {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background-color: #f3f4f6;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-field input::placeholder {
+  color: #9ca3af;
+}
+
+.login-field input:focus {
+  background-color: #ffffff;
+  border-color: #0080c0;
+  box-shadow: 0 0 0 3px rgba(0, 128, 192, 0.25);
+}
+
+/* Botão azul de Login */
+.login-button {
+  margin-top: 26px;
+  width: 220px;
+  padding: 14px 0;
+  border: none;
+  border-radius: 999px;
+  background-color: #0080c0; /* azul fornecido */
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.login-button:hover {
+  background-color: #006ca3;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(0, 128, 192, 0.35);
+}
+
+/* Texto abaixo do botão */
+.signup-text {
+  margin-top: 18px;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+/* Link "Cadastre-se agora!" sublinhado e azul */
+.signup-link {
+  color: #0080c0;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.signup-link:hover {
+  opacity: 0.85;
+}
+
+/* Responsividade – empilha em telas menores */
+@media (max-width: 768px) {
+  .login-card {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    /* O fundo já vem do body */
-}
-
-/* Títulos */
-main h1 {
-    color: #2c3e50;
-    margin-bottom: 10px;
-    font-size: 2.2rem;
-    text-align: center;
-    font-weight: 800;
-}
-
-main p {
-    color: #555;
-    margin-bottom: 30px;
-    text-align: center;
-    font-size: 1.1rem;
-}
-
-/* O Cartão - Agora com detalhe colorido */
-.auth-form {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 20px; /* Mais arredondado */
-    
-    /* Sombra mais profunda e elegante */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    
-    /* Acento de cor no topo */
-    border-top: 6px solid #007bff;
-    
+    max-width: 480px;
+  }
+  .login-image-panel {
+    flex: 0 0 180px;
+    border-radius: 24px 24px 0 0;
+  }
+  .login-content {
+    padding: 32px 24px;
+  }
+  .login-title {
+    font-size: 2rem;
+  }
+  .login-button {
     width: 100%;
-    max-width: 450px;
-}
-
-/* Campos de Input */
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #2c3e50;
-    font-size: 0.95rem;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 14px 15px;
-    border: 1px solid #ddd; /* Borda mais sutil */
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    
-    /* Fundo levemente cinza para destacar do cartão branco */
-    background-color: #f8f9fa;
-    box-sizing: border-box;
-}
-
-.form-group input:focus {
-    border-color: #007bff;
-    background-color: #fff;
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15);
-}
-
-/* Botão com Gradiente */
-.submit-button {
-    background: linear-gradient(to right, #007bff, #0056b3); /* Gradiente no botão */
-    color: white;
-    border: none;
-    padding: 16px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 1.1rem;
-    width: 100%;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    margin-top: 15px;
-    letter-spacing: 0.5px;
-}
-
-.submit-button:hover {
-    transform: translateY(-2px); /* Sobe um pouquinho */
-    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
-}
-
-.auth-link {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 0.95rem;
-    color: #666;
-}
-
-.auth-link a {
-    color: #007bff;
-    font-weight: 700;
-    text-decoration: none;
-}
-
-.auth-link a:hover {
-    text-decoration: underline;
+  }
 }

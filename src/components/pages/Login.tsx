@@ -35,43 +35,56 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="auth-container">
-      <main>
-        <h1>Faça seu Login</h1>
-        <p className="subtitle">Acesse sua conta para gerenciar seus agendamentos.</p>
+    <div className="login-page">
+      <div className="login-card">
+        {/* Lado esquerdo – imagem cinza (depois você troca por uma imagem real) */}
+        <div className="login-image-panel">
+          {/* Se quiser usar <img>, pode colocar aqui */}
+          {/* <img src="/caminho/da/imagem.png" alt="InovFabLab" /> */}
+        </div>
 
-        <form className="auth-form" onSubmit={handleLogin}>
-          <div className="form-group">
-            <label htmlFor="email">E-mail Institucional</label>
-            <input 
-              type="email" 
-              id="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              placeholder="seu.nome@unisanta.br" 
-              required 
-            />
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="password">Senha</label>
-            <input 
-              type="password" 
-              id="password" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              placeholder="Digite sua senha" 
-              required 
-            />
-          </div>
+        {/* FORMULÁRIO */}
+        <div className="login-content">
+          <h1 className="login-title">Log in</h1>
 
-          <button type="submit" className="submit-button">Entrar</button>
-          
-          <div className="auth-link">
-            <p>Não tem uma conta? <Link to="/cadastro">Cadastre-se</Link></p>
-          </div>
-        </form>
-      </main>
+          <form className="login-form" onSubmit={handleLogin}>
+            <div className="login-field">
+              <label htmlFor="email">E-mail</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Inserir e-mail"
+                required
+              />
+            </div>
+
+            <div className="login-field">
+              <label htmlFor="password">Senha</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Inserir senha"
+                required
+              />
+            </div>
+
+            <button type="submit" className="login-button">
+              Login
+            </button>
+
+            <p className="signup-text">
+              Não possui cadastro?{' '}
+              <Link to="/cadastro" className="signup-link">
+                Cadastre-se agora!
+              </Link>
+            </p>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
