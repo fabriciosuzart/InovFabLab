@@ -1,0 +1,25 @@
+TITULO: GUIA RÁPIDO DE USO - FLASHFORGE FINDER
+
+1. SEGURANÇA BÁSICA
+- Superfície Quente: Não toque na mesa de impressão ou no bico extrusor (que chega a 220°C).
+- Partes Móveis: Mantenha mãos e cabelos longe das correias durante o funcionamento.
+
+2. PREPARAÇÃO DO ARQUIVO (FATIAMENTO)
+1. Utilize o software FlashPrint.
+2. Importe seu arquivo .STL.
+3. Verifique se o modelo está "assentado" na mesa (Move > On Platform).
+4. Gere os suportes se houver partes suspensas.
+5. Clique em Slice (Fatiar). Configuração padrão: PLA, Camada 0.2mm, Infill 15%.
+6. Salve o arquivo no formato .GX ou .GCODE em um Pen Drive.
+
+3. OPERAÇÃO DA MÁQUINA
+1. Ligue a impressora no botão traseiro.
+2. Insira o Pen Drive na lateral.
+3. No painel touch, selecione Build (Construir).
+4. Selecione o ícone do Pen Drive e escolha seu arquivo.
+5. Toque em Build. A máquina irá aquecer e iniciar automaticamente.
+
+4. REMOÇÃO E LIMPEZA
+1. Aguarde o resfriamento da mesa.
+2. Remova o prato de vidro ou use a espátula com cuidado.
+3. Limpe resíduos de filamento da mesa.

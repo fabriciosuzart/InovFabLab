@@ -1,0 +1,34 @@
+TITULO: PROCEDIMENTO OFICIAL DE AGENDAMENTO - INOVFABLAB
+
+1. INTRODUÇÃO
+Este documento descreve o fluxo necessário para reservar equipamentos no laboratório INOVFABLAB através do nosso sistema web inteligente.
+
+2. PRÉ-REQUISITOS
+- Estar devidamente matriculado na instituição.
+- Possuir cadastro ativo no sistema INOVFABLAB.
+- Ter realizado o treinamento básico (para equipamentos de risco como Cortadora a Laser).
+
+3. PASSO A PASSO NO SISTEMA
+
+3.1 LOGIN E ACESSO
+Acesse o portal e realize o login com seu e-mail e senha. O sistema bloqueará tentativas de agendamento de usuários não autenticados por segurança.
+
+3.2 VERIFICAÇÃO DE DISPONIBILIDADE
+- Navegue até a aba "Equipamentos".
+- Verifique os indicadores de status. Equipamentos com a etiqueta vermelha "Em uso agora" ou amarela "Manutenção" não estarão disponíveis.
+- Clique no botão "Agendar" no card do equipamento desejado.
+
+3.3 REALIZANDO O AGENDAMENTO
+Você será redirecionado para a tela de Agendamento.
+1. Seleção: O equipamento já virá pré-selecionado.
+2. Data: Selecione uma data futura (o sistema bloqueia datas passadas).
+3. Horário:
+   - O laboratório funciona das 08:00 às 22:00.
+   - Selecione o Horário de Início (intervalos de 5 minutos).
+   - O Horário de Término deve ser posterior ao início.
+
+3.4 CONFIRMAÇÃO
+Clique em "Confirmar Reserva". O sistema verificará automaticamente se há conflitos de horário. Se aprovado, uma mensagem de sucesso aparecerá.
+
+4. CANCELAMENTO
+Caso não possa comparecer, é obrigatório cancelar o agendamento com antecedência através da lista "Meus Agendamentos".

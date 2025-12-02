@@ -1,3 +1,4 @@
+/* --- SEU CSS ORIGINAL (INTACTO) --- */
 .container {
     padding: 60px 20px;
 }
@@ -21,7 +22,7 @@ main p {
     max-width: 900px;
     margin: 0 auto;
     display: grid;
-    gap: 20px; /* Espaço entre os itens */
+    gap: 20px;
 }
 
 /* Item como Cartão */
@@ -39,10 +40,11 @@ main p {
     border-left: 6px solid #007bff; /* Detalhe visual */
     
     transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer; /* Adicionado para indicar clique */
 }
 
 .doc-item:hover {
-    transform: translateY(-3px); /* Sobe um pouco */
+    transform: translateY(-3px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
@@ -53,8 +55,9 @@ main p {
     font-weight: 700;
 }
 
+/* SEUS ESTILOS DE LINK (A) */
 .doc-item a {
-    background-color: #eef2ff; /* Fundo azulzinho */
+    background-color: #eef2ff;
     color: #007bff;
     text-decoration: none;
     padding: 12px 25px;
@@ -68,9 +71,8 @@ main p {
     gap: 8px;
 }
 
-/* Ícone falso com CSS (opcional, para dar charme) */
 .doc-item a::after {
-    content: '⬇'; /* Seta */
+    content: '⬇';
     font-size: 1.1em;
 }
 
@@ -86,8 +88,152 @@ main p {
         align-items: flex-start;
         gap: 15px;
     }
-    .doc-item a {
+    .doc-item a,
+    .read-btn { /* Adicionado para mobile */
         width: 100%;
         justify-content: center;
     }
+}
+
+/* --- NOVO CÓDIGO (ADICIONADO PARA FUNCIONAR O LEITOR) --- */
+
+/* 1. Estilo do Botão "Ler Agora" (Cópia exata do seu estilo de link 'a') */
+.read-btn {
+    background-color: #eef2ff;
+    color: #007bff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.read-btn::after {
+    content: '👁️'; /* Ícone de olho em vez de seta */
+    font-size: 1.1em;
+}
+
+.read-btn:hover {
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+/* 2. Estilo para Item de Alerta (Borda Vermelha) */
+.doc-item.alert-item {
+    border-left-color: #dc3545;
+}
+.doc-item.alert-item .read-btn {
+    color: #dc3545;
+    background-color: #fff5f5;
+}
+.doc-item.alert-item .read-btn:hover {
+    background-color: #dc3545;
+    color: white;
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+}
+
+/* 3. O MODAL (Janela Flutuante) */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6); /* Fundo escuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(4px); /* Desfoque bonito */
+    padding: 20px;
+}
+
+.modal-content {
+    background: white;
+    width: 100%;
+    max-width: 700px;
+    max-height: 85vh;
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    animation: slideUp 0.3s ease-out;
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px; right: 25px;
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.2s;
+}
+.close-modal:hover { color: #333; }
+
+/* Estilização do texto dentro do Modal */
+.modal-body h2 {
+    color: #2c3e50;
+    margin-top: 0;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+.modal-body p {
+    text-align: left; /* Sobrescreve o center do seu main p */
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.alert-box {
+    background: #fff3cd;
+    color: #856404;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ffeeba;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.modal-footer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.btn-print {
+    background: #f1f3f5;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.btn-ok {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }

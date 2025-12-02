@@ -1,113 +1,141 @@
-/* Centraliza na tela */
-.auth-container {
-    min-height: calc(100vh - 80px);
-    display: flex;
+/* Fundo com imagem + overlay vermelho */
+.signup-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  background:
+    linear-gradient(rgba(198, 52, 55, 0.7), rgba(198, 52, 55, 0.7)),
+    url('/public/background2.png') center/cover no-repeat;
+}
+
+.signup-card {
+  width: 100%;
+  max-width: 900px;
+  background-color: #f8fafc;
+  border-radius: 24px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+}
+
+.signup-content {
+  flex: 1;
+  padding: 40px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.signup-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 10px 4px 0;
+}
+
+.signup-title {
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.signup-row {
+  display: flex;
+  gap: 20px;
+}
+
+.signup-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.signup-field label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.signup-field input {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background-color: #f3f4f6;
+  font-size: 0.95rem;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.signup-field input:focus {
+  background-color: #ffffff;
+  border-color: #c63437;
+  box-shadow: 0 0 0 3px rgba(198, 52, 55, 0.25);
+}
+
+.signup-button {
+  margin-top: 28px;
+  width: 260px;
+  padding: 14px 0;
+  border: none;
+  border-radius: 999px;
+  background-color: #c63437;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.signup-button:hover {
+  background-color: #a72b2e;
+  transform: translateY(-1px);
+}
+
+
+.signup-image-panel {
+  flex: 0 0 15%;
+  background-color: #7f7f7f;
+  border-radius: 0 24px 24px 0;
+}
+
+.signup-image-panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .signup-card {
+    flex-direction: column-reverse;
+    max-width: 480px;
+  }
+  .signup-image-panel {
+    flex: 0 0 150px;
+    border-radius: 24px 24px 0 0;
+  }
+  .signup-row {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    /* O fundo já vem do body */
-}
-
-/* Títulos */
-main h1 {
-    color: #2c3e50;
-    margin-bottom: 10px;
-    font-size: 2.2rem;
-    text-align: center;
-    font-weight: 800;
-}
-
-main p {
-    color: #555;
-    margin-bottom: 30px;
-    text-align: center;
-    font-size: 1.1rem;
-}
-
-/* O Cartão - Agora com detalhe colorido */
-.auth-form {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 20px; /* Mais arredondado */
-    
-    /* Sombra mais profunda e elegante */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    
-    /* Acento de cor no topo */
-    border-top: 6px solid #0080c0;
-    
+  }
+  .signup-button {
     width: 100%;
-    max-width: 450px;
-}
-
-/* Campos de Input */
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #2c3e50;
-    font-size: 0.95rem;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 14px 15px;
-    border: 1px solid #ddd; /* Borda mais sutil */
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    
-    /* Fundo levemente cinza para destacar do cartão branco */
-    background-color: #f8f9fa;
-    box-sizing: border-box;
-}
-
-.form-group input:focus {
-    border-color: #0080c0;
-    background-color: #fff;
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15);
-}
-
-/* Botão com Gradiente */
-.submit-button {
-    background: linear-gradient(to right, #0080c0, #0056b3); /* Gradiente no botão */
-    color: white;
-    border: none;
-    padding: 16px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 1.1rem;
-    width: 100%;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    margin-top: 15px;
-    letter-spacing: 0.5px;
-}
-
-.submit-button:hover {
-    transform: translateY(-2px); /* Sobe um pouquinho */
-    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
-}
-
-.auth-link {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 0.95rem;
-    color: #666;
-}
-
-.auth-link a {
-    color: #0080c0;
-    font-weight: 700;
-    text-decoration: none;
-}
-
-.auth-link a:hover {
-    text-decoration: underline;
+  }
 }

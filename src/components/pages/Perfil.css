@@ -1,0 +1,191 @@
+/* Container principal da página */
+.profile-container {
+    max-width: 1200px; /* Aumentei de 1000px para 1200px para caber mais coisa */
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* O Grid que divide a tela em duas partes */
+.profile-grid {
+    display: grid;
+    /* MUDANÇA AQUI: Mudei de "1fr 2fr" para "400px 1fr" */
+    /* Isso força o cartão da esquerda a ter fixo 400px de largura (bem mais largo) */
+    grid-template-columns: 400px 1fr;
+    gap: 30px;
+    align-items: start; /* Impede que estique a altura sem necessidade */
+}
+
+/* Estilo geral dos cartões */
+.profile-card {
+    background: white;
+    padding: 40px; /* Mais espaço interno (padding) */
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+/* --- ESTILOS DO CARTÃO DE INFORMAÇÃO (ESQUERDA) --- */
+.avatar-circle {
+    width: 100px; /* Aumentei o avatar um pouco */
+    height: 100px;
+    background: #004aad;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 0 auto 25px;
+}
+
+.info-card h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.6rem;
+    line-height: 1.4; /* Melhora a leitura se o nome for muito longo */
+}
+
+/* Linhas de Email e RA */
+.info-row {
+    display: flex;
+    align-items: center; /* Alinha ícone e texto */
+    justify-content: space-between;
+    margin-bottom: 20px; /* Mais espaço entre as linhas */
+    font-size: 1rem;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+    flex-wrap: nowrap; /* Impede quebra de linha indesejada */
+}
+
+.info-row span {
+    color: #666;
+    font-weight: 600;
+    white-space: nowrap; /* Garante que "E-mail" não quebre */
+    margin-right: 15px;
+}
+
+.info-row strong {
+    color: #000;
+    font-weight: normal;
+    text-align: right;
+    word-break: break-all; /* Se o email for gigante, quebra só ele */
+}
+
+.divider {
+    margin: 30px 0;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+/* Título da seção de senha */
+.info-card h3 {
+    margin-bottom: 20px;
+    color: #004aad;
+}
+
+/* Inputs de Senha (MAIORES) */
+.profile-input {
+    width: 100%;
+    padding: 15px; /* Aumentei o padding interno para ficar mais alto */
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Bordas mais arredondadas */
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    color: #333;
+    font-size: 1rem;
+}
+
+.profile-input:focus {
+    outline: none;
+    border-color: #004aad;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(0, 74, 173, 0.1);
+}
+
+/* Botão de Salvar */
+.save-btn {
+    width: 100%;
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 15px; /* Botão mais alto também */
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background 0.2s;
+    margin-top: 10px;
+}
+
+.save-btn:hover {
+    background: #218838;
+}
+
+/* --- HISTÓRICO (DIREITA) --- */
+.history-card h3 {
+    color: #004aad;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.history-item {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 20px; /* Mais espaço nos itens da lista */
+    margin-bottom: 15px;
+    border-left: 5px solid #ccc;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.history-item.Confirmado { border-left-color: #28a745; }
+.history-item.Cancelado { border-left-color: #dc3545; background: #fafafa; opacity: 0.7; }
+
+.h-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.h-header strong {
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.status-badge {
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: #eee;
+}
+
+.status-badge.Confirmado { color: #155724; background-color: #d4edda; }
+.status-badge.Cancelado { color: #721c24; background-color: #f8d7da; }
+
+.h-date {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+/* Responsividade para celular */
+@media(max-width: 900px) {
+    .profile-grid {
+        grid-template-columns: 1fr; /* Empilha tudo em telas menores */
+    }
+    .profile-card {
+        padding: 25px;
+    }
+}

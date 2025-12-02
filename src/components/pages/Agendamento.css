@@ -1,120 +1,210 @@
-/* Container que centraliza tudo verticalmente e horizontalmente */
-.agendamento-page {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    min-height: calc(100vh - 80px); /* Altura total menos navbar */
-    background-color: #f2f4fb; /* Garante o fundo cinza claro */
+.container.agendamento-page {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Segoe UI', sans-serif;
 }
 
-/* O Cartão Branco do Formulário */
+/* Grid Layout: Formulário à esquerda, Lista à direita */
+.layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .layout-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .schedule-card {
-    background-color: #ffffff;
-    padding: 40px;
+    background: white;
+    padding: 30px;
     border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* Sombra suave */
-    width: 100%;
-    max-width: 600px; /* Largura máxima para não ficar esticado */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    height: fit-content;
 }
 
-/* Cabeçalho dentro do Card */
-.schedule-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.schedule-header h1 {
+.schedule-header h2 {
     margin: 0;
-    color: #2c3e50;
-    font-size: 1.8rem;
-    font-weight: 700;
+    color: #1a1a1a;
+    font-size: 1.5rem;
 }
 
-.schedule-header p {
-    color: #7f8c8d;
-    margin-top: 8px;
+.subtitle {
+    color: #666;
+    margin-top: 5px;
+    font-size: 0.9rem;
 }
 
-/* Estilos dos Inputs e Labels */
-.form-group {
-    margin-bottom: 25px;
+/* Formulário estilizado */
+.schedule-form {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .form-group label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: #34495e;
-    font-size: 0.95rem;
+    color: #444;
+    font-size: 0.9rem;
 }
 
-/* Inputs (Select, Date, Time) */
-.form-group input,
-.form-group select {
+.styled-input {
     width: 100%;
     padding: 12px 15px;
-    border: 2px solid #e0e0e0; /* Borda sutil */
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
+    background-color: #f8f9fa;
     font-size: 1rem;
-    background-color: #f9f9f9;
-    transition: border-color 0.2s, background-color 0.2s;
-    font-family: inherit;
+    color: #333;
+    transition: 0.2s;
     box-sizing: border-box;
 }
 
-/* Efeito ao clicar no campo */
-.form-group input:focus,
-.form-group select:focus {
-    border-color: #007bff;
-    background-color: #fff;
+.styled-input:focus {
+    border-color: #004aad;
+    background-color: white;
     outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(0, 74, 173, 0.1);
 }
 
-/* Linha para Data e Hora ficarem lado a lado */
-.form-row {
+.time-row {
     display: flex;
-    gap: 20px;
+    gap: 15px;
 }
 
-.form-row .form-group {
-    flex: 1; /* Ocupam espaço igual */
+.half {
+    flex: 1;
 }
 
-/* Botão de Enviar */
-.submit-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 15px;
+/* Badge de Duração */
+.duration-badge {
+    background-color: #eef4ff;
+    color: #004aad;
+    padding: 10px;
     border-radius: 8px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    width: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+    border: 1px solid #dce9ff;
+}
+
+.submit-button {
+    background-color: #004aad;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
+    transition: background 0.2s, transform 0.1s;
     margin-top: 10px;
 }
 
 .submit-button:hover {
-    background-color: #0056b3;
+    background-color: #003380;
+    transform: translateY(-1px);
 }
 
-.submit-button:active {
-    transform: scale(0.98); /* Pequeno efeito de clique */
+/* LISTA DE AGENDAMENTOS */
+.appointments-wrapper {
+    margin-top: 20px;
+    max-height: 500px;
+    overflow-y: auto;
 }
 
-/* Responsividade para Celular */
-@media (max-width: 600px) {
-    .schedule-card {
-        padding: 25px;
-        margin: 0 15px; /* Margem lateral no celular */
-    }
+.empty-state {
+    text-align: center;
+    color: #999;
+    padding: 40px 0;
+    border: 2px dashed #eee;
+    border-radius: 12px;
+}
 
-    .form-row {
-        flex-direction: column; /* Data e Hora um embaixo do outro no celular */
-        gap: 0;
-    }
+.appointment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.appt-item {
+    background: #fff;
+    border: 1px solid #eee;
+    border-left: 4px solid #28a745; /* Verde padrão */
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.appt-item:hover {
+    transform: translateX(2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.appt-item.cancelled {
+    border-left-color: #dc3545;
+    background-color: #fafafa;
+    opacity: 0.7;
+}
+
+.appt-info strong {
+    display: block;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.appt-date {
+    font-size: 0.85rem;
+    color: #666;
+    margin-right: 10px;
+}
+
+.appt-time {
+    display: inline-block;
+    font-weight: bold;
+    color: #004aad;
+    background: #eef4ff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.status-tag {
+    display: block;
+    font-size: 0.75rem;
+    margin-top: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.status-tag.confirmado { color: #28a745; }
+.status-tag.cancelado { color: #dc3545; }
+
+.cancel-btn {
+    background: #fff0f0;
+    color: #dc3545;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.cancel-btn:hover {
+    background: #dc3545;
+    color: white;
 }

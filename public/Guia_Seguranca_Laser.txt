@@ -1,0 +1,28 @@
+TITULO: PROTOCOLO DE SEGURANÇA - CORTADORA A LASER
+
+⚠️ ATENÇÃO: RISCO DE INCÊNDIO E INTOXICAÇÃO ⚠️
+
+1. A REGRA DE OURO
+NUNCA deixe a cortadora a laser operando sem supervisão. O operador deve permanecer ao lado da máquina durante 100% do processo.
+
+2. MATERIAIS PROIBIDOS (PERIGO MORTAL)
+É estritamente PROIBIDO cortar ou gravar:
+- PVC (Vinil): Libera gás cloro (mortal e corrosivo).
+- Isopor/Espuma: Pega fogo facilmente.
+- Fibra de Carbono: Libera gases tóxicos.
+
+3. MATERIAIS PERMITIDOS
+- MDF (até 6mm).
+- Acrílico Cast/Extrudado.
+- Papel, Papelão e Cartolina.
+- Couro natural.
+
+4. PROCEDIMENTOS DE EMERGÊNCIA
+A. Fogo pequeno (na peça): Abra a tampa (o laser para) e abafe com um pano úmido ou borrife água.
+B. Fogo fora de controle:
+   - Aperte o Botão de Emergência (Cogumelo Vermelho).
+   - Evacue a área.
+   - Acione o extintor de CO2.
+
+5. EPIs
+O uso de óculos de proteção contra radiação laser é obrigatório se for necessário observar o corte com a tampa aberta (modo manutenção).

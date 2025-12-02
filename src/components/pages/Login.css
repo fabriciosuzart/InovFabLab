@@ -1,4 +1,4 @@
-/* Página inteira com imagem de fundo + overlay azul */
+/* --- CONFIGURAÇÃO DA PÁGINA --- */
 .login-page {
   min-height: calc(100vh - 80px);
   display: flex;
@@ -6,15 +6,16 @@
   justify-content: center;
   padding: 32px 16px;
 
+  /* Imagem de fundo com sobreposição azul */
   background:
     linear-gradient(rgba(0, 128, 192, 0.6), rgba(0, 128, 192, 0.6)),
     url('/public/background.png') center/cover no-repeat;
 }
 
-/* Card principal (branco, com cantos arredondados) */
+/* --- CARTÃO PRINCIPAL --- */
 .login-card {
   width: 100%;
-  max-width: 960px;
+  max-width: 900px;
   background-color: #f8fafc;
   border-radius: 24px;
   display: flex;
@@ -22,20 +23,14 @@
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
 }
 
-/* Painel esquerdo – por enquanto só o cinza #7F7F7F */
+/* Painel Cinza (Imagem Lateral) */
 .login-image-panel {
-  flex: 0 0 40%;
+  flex: 0 0 15%;
   background-color: #7f7f7f;
   border-radius: 24px 0 0 24px;
 }
 
-.login-image-panel img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Lado direito do card (formulário) */
+/* Conteúdo do Formulário */
 .login-content {
   flex: 1;
   padding: 48px 56px;
@@ -44,7 +39,7 @@
   justify-content: center;
 }
 
-/* Título "Log in" */
+/* Título */
 .login-title {
   font-size: 2.3rem;
   font-weight: 700;
@@ -52,14 +47,13 @@
   margin-bottom: 32px;
 }
 
-/* Formulário */
+/* --- FORMULÁRIO --- */
 .login-form {
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
 
-/* Campo (label + input) */
 .login-field {
   display: flex;
   flex-direction: column;
@@ -80,11 +74,8 @@
   background-color: #f3f4f6;
   font-size: 0.95rem;
   outline: none;
+  box-sizing: border-box; /* Garante que o padding não estoure a largura */
   transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.login-field input::placeholder {
-  color: #9ca3af;
 }
 
 .login-field input:focus {
@@ -93,14 +84,37 @@
   box-shadow: 0 0 0 3px rgba(0, 128, 192, 0.25);
 }
 
-/* Botão azul de Login */
+/* Link "Esqueceu a senha?" */
+.forgot-password-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+
+.forgot-password-link {
+    background: none;
+    border: none;
+    color: #0080c0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+/* Botão de Login (Azul) */
 .login-button {
   margin-top: 26px;
-  width: 220px;
+  width: 100%; /* Largura total */
   padding: 14px 0;
   border: none;
   border-radius: 999px;
-  background-color: #0080c0; /* azul fornecido */
+  background-color: #0080c0;
   color: #ffffff;
   font-size: 1rem;
   font-weight: 600;
@@ -114,41 +128,101 @@
   box-shadow: 0 10px 20px rgba(0, 128, 192, 0.35);
 }
 
-/* Texto abaixo do botão */
+/* Botão "Voltar" (Cinza) */
+.back-to-login-btn {
+    background: none;
+    border: none;
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-top: 15px;
+    cursor: pointer;
+    font-weight: 600;
+    width: 100%;
+    text-align: center;
+}
+
+.back-to-login-btn:hover {
+    color: #111;
+    text-decoration: underline;
+}
+
+/* Link Cadastre-se */
 .signup-text {
   margin-top: 18px;
   font-size: 0.9rem;
   color: #6b7280;
+  text-align: center;
 }
 
-/* Link "Cadastre-se agora!" sublinhado e azul */
 .signup-link {
   color: #0080c0;
   font-weight: 600;
   text-decoration: underline;
 }
 
-.signup-link:hover {
-  opacity: 0.85;
-}
-
-/* Responsividade – empilha em telas menores */
+/* --- RESPONSIVIDADE --- */
 @media (max-width: 768px) {
   .login-card {
     flex-direction: column;
     max-width: 480px;
   }
   .login-image-panel {
-    flex: 0 0 180px;
+    flex: 0 0 150px;
     border-radius: 24px 24px 0 0;
   }
   .login-content {
     padding: 32px 24px;
   }
-  .login-title {
-    font-size: 2rem;
-  }
-  .login-button {
+}
+
+/* --- ESTILOS DO MODAL (POPUP DE TROCA DE SENHA) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.7); /* Fundo Escuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px); /* Efeito de desfoque */
+    padding: 20px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content.change-pass-modal {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
     width: 100%;
-  }
+    max-width: 450px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    text-align: left;
+    animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efeito elástico suave */
+}
+
+.change-pass-modal h2 {
+    color: #d32f2f;
+    margin-top: 0;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.change-pass-modal p {
+    color: #555;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }

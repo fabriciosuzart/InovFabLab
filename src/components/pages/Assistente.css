@@ -239,5 +239,21 @@
 }
 
 /* Botão Parar */
-.send-btn.stop-btn { background-color: #dc3545; }
-.send-btn.stop-btn:hover { background-color: #c82333; }
+.send-btn.stop-btn { 
+    background-color: #dc3545; 
+}
+.send-btn.stop-btn:hover { 
+    background-color: #c82333; 
+}
+.thinking-indicator {
+    color: #666;
+    font-style: italic;
+    font-weight: bold;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
