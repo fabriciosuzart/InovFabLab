@@ -10,6 +10,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
+import ollama from 'ollama';
 
 const require = createRequire(import.meta.url);
 const pdf = require('pdf-parse');
@@ -201,6 +202,11 @@ app.post('/api/chat', async (req, res) => {
         console.error("   Motivo provável: A função initAI falhou ou não terminou.");
         return res.status(500).end("Erro interno: A IA está sem memória.");
     }
+
+    /*res.on("close", () => {
+        console.log("⚠️ Cancelando geração de resposta");
+        ollama.abort();
+    });*/
 
     try {
         // ... (parte do RAG/Embeddings continua igual) ...
