@@ -1,0 +1,113 @@
+/* Centraliza na tela */
+.auth-container {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    /* O fundo já vem do body */
+}
+
+/* Títulos */
+main h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 2.2rem;
+    text-align: center;
+    font-weight: 800;
+}
+
+main p {
+    color: #555;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* O Cartão - Agora com detalhe colorido */
+.auth-form {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 20px; /* Mais arredondado */
+    
+    /* Sombra mais profunda e elegante */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    
+    /* Acento de cor no topo */
+    border-top: 6px solid #007bff;
+    
+    width: 100%;
+    max-width: 450px;
+}
+
+/* Campos de Input */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid #ddd; /* Borda mais sutil */
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    
+    /* Fundo levemente cinza para destacar do cartão branco */
+    background-color: #f8f9fa;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15);
+}
+
+/* Botão com Gradiente */
+.submit-button {
+    background: linear-gradient(to right, #007bff, #0056b3); /* Gradiente no botão */
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    width: 100%;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 15px;
+    letter-spacing: 0.5px;
+}
+
+.submit-button:hover {
+    transform: translateY(-2px); /* Sobe um pouquinho */
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.auth-link a {
+    color: #007bff;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}

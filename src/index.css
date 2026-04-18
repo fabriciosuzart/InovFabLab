@@ -10,4 +10,19 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  /* NOVO: Gradiente de fundo azulado suave */
+  background: linear-gradient(135deg, #eef2f3 0%, #8e9eab 100%);
+  /* Opção alternativa mais azul: background: linear-gradient(135deg, #E0EAFC 0%, #CFDEF3 100%); */
+  
+  color: #333;
+  min-height: 100vh; /* Garante que o fundo cubra tudo */
+}
+
+/* Container Padrão */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  width: 100%;
 }

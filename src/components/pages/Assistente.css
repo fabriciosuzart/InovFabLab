@@ -1,0 +1,243 @@
+/* src/components/pages/Assistente.css */
+
+/* 1. O Container ocupa a tela toda */
+.assistente-container {
+    display: flex;
+    flex-direction: column;
+    /* Altura total da tela menos a altura da Navbar (aprox 80px) */
+    height: calc(100vh - 80px); 
+    width: 100%;
+    background-color: #f0f4f9; /* Cor de fundo do chat */
+    position: relative;
+    overflow: hidden;
+}
+
+/* 2. Interface sem limites de largura */
+.chat-interface {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* Marca d'água centralizada */
+.chat-interface::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Certifique-se que a imagem existe na pasta public */
+    background-image: url('/inovfablab_logo.png'); 
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 40%; /* Tamanho proporcional */
+    opacity: 0.05;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Área das mensagens */
+.chat-history {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px 5%; /* Margem lateral interna */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1;
+}
+
+/* Balões */
+.message {
+    display: flex;
+    align-items: flex-start;
+    max-width: 85%;
+}
+
+.message.user {
+    margin-left: auto;
+    flex-direction: row-reverse;
+}
+
+.message .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin: 0 10px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.message.ai .avatar {
+    background: linear-gradient(135deg, #4285F4, #9B72CB);
+}
+
+.message.user .avatar {
+    background-color: #6c757d;
+}
+
+.message-content {
+    background-color: #ffffff;
+    padding: 15px 20px;
+    border-radius: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    line-height: 1.5;
+    color: #333;
+    font-size: 1rem;
+    margin: 0;
+    white-space: pre-wrap; 
+    line-height: 1.5;
+}
+
+.message.user .message-content {
+    background-color: #dcf8c6;
+    border-bottom-right-radius: 5px;
+}
+
+.message.ai .message-content {
+    background-color: #ffffff;
+    border-bottom-left-radius: 5px;
+}
+
+/* Botão de ouvir pequeno */
+.speak-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    opacity: 0.4;
+    float: right;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+.speak-btn:hover { opacity: 1; }
+
+/* Área de Digitação (Rodapé fixo) */
+.chat-input-area {
+    flex-shrink: 0;
+    padding: 20px 0; /* Mais espaço em cima e embaixo */
+    background-color: #f0f4f9; 
+    border-top: 1px solid rgba(0,0,0,0.05);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+}
+
+/* Container que define a largura máxima */
+.input-container-limit {
+    width: 95%; /* Ocupa 95% da tela (quase tudo) */
+    max-width: 1600px; /* Aumentei muito o limite (era 900px) */
+    margin: 0 auto;
+}
+
+/* A Barra Branca (Cápsula) */
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 50px;
+    
+    /* AQUI DEIXA ELA MAIS "GORDINHA" */
+    padding: 12px 25px; 
+    
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    width: 100%;
+}
+
+/* Botões de ícone (Som/Mic) */
+.icon-button {
+    background: transparent;
+    border: none;
+    font-size: 1.6rem; /* Ícones maiores */
+    cursor: pointer;
+    margin-right: 15px; /* Mais espaço entre eles */
+    color: #555;
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.icon-button:hover { 
+    color: #007bff; 
+    transform: scale(1.1);
+}
+
+.speech-toggle.active { color: #007bff; }
+
+.mic-button.listening {
+    color: red;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Caixa de Texto */
+.input-wrapper textarea {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+    font-size: 1.2rem; /* Letra maior para facilitar leitura */
+    padding: 5px 10px;
+    max-height: 120px;
+    background: transparent;
+    color: #333;
+}
+
+/* Botão Enviar */
+.send-btn {
+    background-color: #007bff;
+    border: none;
+    width: 50px; /* Botão maior */
+    height: 50px; /* Botão maior */
+    border-radius: 50%;
+    margin-left: 15px;
+    color: white;
+    font-size: 1.4rem; /* Seta maior */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.send-btn:hover:not(:disabled) { 
+    background-color: #0056b3; 
+    transform: scale(1.05);
+}
+
+.send-btn:disabled { 
+    background-color: #ccc; 
+    cursor: default; 
+}
+
+.blinking-cursor {
+  font-style: italic;
+  color: #888;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+/* Botão Parar */
+.send-btn.stop-btn { background-color: #dc3545; }
+.send-btn.stop-btn:hover { background-color: #c82333; }

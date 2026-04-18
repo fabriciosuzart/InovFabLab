@@ -1,0 +1,94 @@
+.contact-page-container {
+    padding: 60px 20px;
+    min-height: calc(100vh - 80px);
+}
+
+main h1 {
+    text-align: center;
+    color: #2c3e50;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+main p {
+    text-align: center;
+    color: #555;
+    margin-bottom: 50px;
+    font-size: 1.1rem;
+}
+
+/* Cartão de Contato */
+.contact-form {
+    background-color: #ffffff;
+    padding: 50px;
+    border-radius: 20px;
+    
+    /* Sombra forte para destacar do fundo */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+    
+    /* Detalhe lateral colorido */
+    border-left: 6px solid #007bff;
+    
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #34495e;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s;
+    background-color: #f8f9fa; /* Fundo cinza claro */
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15);
+}
+
+.submit-button {
+    background: linear-gradient(to right, #007bff, #0062cc);
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 50px; /* Botão redondo */
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.submit-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3);
+}
+
+@media (min-width: 768px) {
+    .submit-button {
+        width: auto;
+        min-width: 200px;
+        margin-left: auto;
+    }
+}
