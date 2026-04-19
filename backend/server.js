@@ -11,6 +11,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
 import ollama from 'ollama';
+import multer from 'multer';
 
 const require = createRequire(import.meta.url);
 const pdf = require('pdf-parse');
@@ -28,6 +29,24 @@ const JWT_SECRET = 'sua_chave_secreta_super_segura';
 
 app.use(cors());
 app.use(express.json());
+
+// --- CONFIGURAÇÃO DE UPLOAD DE IMAGENS (MULTER) ---
+// Define onde as imagens serão salvas e o nome delas
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); // Pasta que criamos dentro da pasta backend
+    },
+    filename: (req, file, cb) => {
+        // Renomeia o arquivo para não ter nomes duplicados (ex: 1698123456-impressora.jpg)
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
+
+// Torna a pasta 'uploads' pública para o Frontend conseguir acessar as imagens depois
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // --- BANCO DE DADOS ---
 // --- BANCO DE DADOS (PRISMA) ---
@@ -159,30 +178,58 @@ function cosineSimilarity(vecA, vecB) {
 }
 
 // --- ROTAS ---
-app.post('/api/equipment', async (req, res) => {
+
+// --- ROTA: ADICIONAR EQUIPAMENTO COM IMAGEM ---
+// O 'upload.single("image")' intercepta o arquivo enviado pelo front e salva na pasta uploads
+app.post('/api/equipment', upload.single('image'), async (req, res) => {
     try {
-        // Pega os dados que o Front-end enviou
-        const { name, description, imagePath, status } = req.body;
+        const { name, description, status } = req.body;
         
-        // Manda o Prisma salvar no banco de dados
+        // Se o admin enviou uma foto, o Multer guarda o caminho dela aqui. Se não, fica nulo.
+        const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+        
         const newEquipment = await prisma.equipment.create({
             data: {
                 name: name,
                 description: description,
                 imagePath: imagePath,
-                status: status || "DISPONÍVEL" // Se não enviarem status, o padrão é DISPONÍVEL
+                status: status || "DISPONIVEL"
             }
         });
         
-        // Devolve uma resposta de sucesso
-        res.status(201).json({ message: "Equipamento adicionado com sucesso!", equipment: newEquipment });
+        res.status(201).json({ message: "Equipamento salvo com imagem!", equipment: newEquipment });
     } catch (error) {
         console.error("❌ Erro ao adicionar equipamento:", error);
-        res.status(500).json({ error: "Erro interno ao salvar no banco de dados." });
+        res.status(500).json({ error: "Erro interno." });
     }
 });
 
-// --- ROTAS ---
+// --- ROTA: ATUALIZAR EQUIPAMENTO E IMAGEM ---
+app.put('/api/equipment/:id', upload.single('image'), async (req, res) => {
+    try {
+        const equipmentId = parseInt(req.params.id);
+        const { name, description, status } = req.body;
+        
+        // Prepara os dados que vão ser atualizados
+        let updateData = { name, description, status };
+        
+        // Se uma nova imagem foi enviada, atualiza o caminho dela também
+        if (req.file) {
+            updateData.imagePath = `/uploads/${req.file.filename}`;
+        }
+        
+        const updatedEquipment = await prisma.equipment.update({
+            where: { id: equipmentId },
+            data: updateData
+        });
+        
+        res.json({ message: "Equipamento atualizado!", equipment: updatedEquipment });
+    } catch (error) {
+        console.error("❌ Erro ao atualizar equipamento:", error);
+        res.status(500).json({ error: "Erro interno." });
+    }
+});
+
 app.post('/api/register', async (req, res) => {
     try {
         const { fullName, email, ra, password } = req.body;
