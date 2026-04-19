@@ -1,7 +1,7 @@
 /* backend/server.js - VERSÃO OTIMIZADA PARA DOCUMENTOS GRANDES */
 import express from 'express';
 import cors from 'cors';
-import sqlite3 from 'sqlite3';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { pipeline } from '@xenova/transformers';
@@ -30,15 +30,9 @@ app.use(cors());
 app.use(express.json());
 
 // --- BANCO DE DADOS ---
-const db = new sqlite3.Database('./inovfablab.db', (err) => {
-    if (err) console.error("❌ Erro no DB:", err.message);
-    else console.log('✅ Banco de dados conectado.');
-});
-
-db.serialize(() => {
-    db.run(`CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT UNIQUE, ra TEXT, password TEXT)`);
-    db.run(`CREATE TABLE IF NOT EXISTS appointments (id INTEGER PRIMARY KEY AUTOINCREMENT, userId INTEGER, equipment TEXT, date TEXT, time TEXT, FOREIGN KEY(userId) REFERENCES users(id))`);
-});
+// --- BANCO DE DADOS (PRISMA) ---
+const prisma = new PrismaClient();
+console.log('✅ Prisma ORM conectado ao banco SQLite.');
 
 // --- BASE DE CONHECIMENTO ---
 let knowledgeBase = [
@@ -165,32 +159,77 @@ function cosineSimilarity(vecA, vecB) {
 }
 
 // --- ROTAS ---
+app.post('/api/equipment', async (req, res) => {
+    try {
+        // Pega os dados que o Front-end enviou
+        const { name, description, imagePath, status } = req.body;
+        
+        // Manda o Prisma salvar no banco de dados
+        const newEquipment = await prisma.equipment.create({
+            data: {
+                name: name,
+                description: description,
+                imagePath: imagePath,
+                status: status || "DISPONÍVEL" // Se não enviarem status, o padrão é DISPONÍVEL
+            }
+        });
+        
+        // Devolve uma resposta de sucesso
+        res.status(201).json({ message: "Equipamento adicionado com sucesso!", equipment: newEquipment });
+    } catch (error) {
+        console.error("❌ Erro ao adicionar equipamento:", error);
+        res.status(500).json({ error: "Erro interno ao salvar no banco de dados." });
+    }
+});
+
+// --- ROTAS ---
 app.post('/api/register', async (req, res) => {
-    const { fullName, email, ra, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 8);
-    db.run(`INSERT INTO users (name, email, ra, password) VALUES (?, ?, ?, ?)`, [fullName, email, ra, hashedPassword], function(err) {
-        if (err) return res.status(400).json({ error: "Erro ao cadastrar." });
+    try {
+        const { fullName, email, ra, password } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 8);
+        
+        await prisma.user.create({
+            data: { name: fullName, email, ra, password: hashedPassword }
+        });
+        
         res.json({ message: "Sucesso!" });
-    });
+    } catch (error) {
+        res.status(400).json({ error: "Erro ao cadastrar. E-mail ou RA já existem." });
+    }
 });
 
-app.post('/api/login', (req, res) => {
-    const { email, password } = req.body;
-    db.get(`SELECT * FROM users WHERE email = ?`, [email], async (err, user) => {
+app.post('/api/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        
+        const user = await prisma.user.findUnique({ where: { email } });
         if (!user) return res.status(404).json({ error: "Usuário não encontrado." });
+        
         if (!(await bcrypt.compare(password, user.password))) return res.status(401).json({ error: "Senha inválida." });
+        
         const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: 86400 });
-        res.json({ auth: true, token, name: user.name, id: user.id });
-    });
+        res.json({ auth: true, token, name: user.name, id: user.id, role: user.role });
+    } catch (error) {
+        res.status(500).json({ error: "Erro interno no login." });
+    }
 });
 
-app.post('/api/schedule', (req, res) => {
-    const { userId, equipment, date, time } = req.body;
-    db.run(`INSERT INTO appointments (userId, equipment, date, time) VALUES (?, ?, ?, ?)`, [userId, equipment, date, time], (err) => {
-        if (err) return res.status(500).json({ error: "Erro." });
-        res.json({ message: "Agendado!" });
-    });
+// A rota de Agendamento vou deixar comentada por enquanto, 
+// pois mudamos a regra de negócio na reunião (agora precisa de aprovação e ID do equipamento).
+// Vamos recriar ela juntos quando formos fazer os "Casos de Uso".
+/*
+app.post('/api/schedule', async (req, res) => {
+    // ... será construída em breve ...
 });
+*/
+
+// app.post('/api/schedule', (req, res) => {
+//     const { userId, equipment, date, time } = req.body;
+//     db.run(`INSERT INTO appointments (userId, equipment, date, time) VALUES (?, ?, ?, ?)`, [userId, equipment, date, time], (err) => {
+//         if (err) return res.status(500).json({ error: "Erro." });
+//         res.json({ message: "Agendado!" });
+//     });
+// });
 
 app.post('/api/chat', async (req, res) => {
     const { message } = req.body;
