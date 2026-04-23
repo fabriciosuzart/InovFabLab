@@ -23,6 +23,7 @@ const Login: React.FC = () => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('userName', data.name);
         localStorage.setItem('userId', data.id); // Importante para o agendamento
+        localStorage.setItem('userRole', data.role); 
         
         alert('Bem-vindo, ' + data.name + '!');
         navigate('/'); // Redireciona para a Home

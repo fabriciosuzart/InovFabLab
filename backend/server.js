@@ -12,6 +12,9 @@ import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
 import ollama from 'ollama';
 import multer from 'multer';
+import { exec } from 'child_process';
+import { promisify } from 'util';
+const execPromise = promisify(exec);
 
 const require = createRequire(import.meta.url);
 const pdf = require('pdf-parse');
@@ -88,35 +91,38 @@ async function loadDocuments() {
                 textContent = result.value;
             } else if (ext === '.txt') {
                 textContent = fs.readFileSync(filePath, 'utf-8');
+            } else if (ext === '.md' || ext === '.txt') {
+            textContent = fs.readFileSync(filePath, 'utf-8');
             }
 
-            if (textContent) {
-                // CÓDIGO NOVO (MANTÉM AS QUEBRAS DE LINHA)
-                // Remove apenas excesso de espaços, mas respeita o \n
-                const cleanText = textContent.replace(/\r/g, '').replace(/\n\s*\n/g, '\n').trim();
-                
-                // --- MELHORIA 1: CHUNKS MAIORES (2000 caracteres) ---
-                // Isso garante que listas longas fiquem juntas no mesmo contexto
-                const chunkSize = 2000; 
-                for (let i = 0; i < cleanText.length; i += chunkSize) {
-                    const chunk = cleanText.substring(i, i + chunkSize);
-                    knowledgeBase.push({
-                        source: `Arquivo: ${file}`,
-                        text: chunk
-                    });
-                }
-                console.log(`   ✅ Lido: ${file}`);
+
+        if (textContent) {
+            // CÓDIGO NOVO (MANTÉM AS QUEBRAS DE LINHA)
+            // Remove apenas excesso de espaços, mas respeita o \n
+            const cleanText = textContent.replace(/\r/g, '').replace(/\n\s*\n/g, '\n').trim();
+
+            // --- MELHORIA 1: CHUNKS MAIORES (2000 caracteres) ---
+            // Isso garante que listas longas fiquem juntas no mesmo contexto
+            const chunkSize = 2000;
+            for (let i = 0; i < cleanText.length; i += chunkSize) {
+                const chunk = cleanText.substring(i, i + chunkSize);
+                knowledgeBase.push({
+                    source: `Arquivo: ${file}`,
+                    text: chunk
+                });
             }
-        } catch (error) {
-            console.error(`   ❌ Erro ao ler ${file}:`, error.message);
+            console.log(`   ✅ Lido: ${file}`);
         }
+    } catch (error) {
+        console.error(`   ❌ Erro ao ler ${file}:`, error.message);
     }
+}
 }
 
 async function initAI() {
     await loadDocuments();
     console.log("\n🧠 Inicializando Motor de IA...");
-    
+
     // Carrega o modelo de embeddings (Xenova)
     try {
         embedder = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
@@ -141,18 +147,18 @@ async function initAI() {
         const item = knowledgeBase[i];
         try {
             const output = await embedder(item.text, { pooling: 'mean', normalize: true });
-            vectorStore.push({ 
-                id: i, 
-                text: item.text, 
-                source: item.source, 
-                vector: output.data 
+            vectorStore.push({
+                id: i,
+                text: item.text,
+                source: item.source,
+                vector: output.data
             });
             process.stdout.write(`.`); // Pontinho de progresso
         } catch (e) {
             console.error(`\n❌ Erro ao processar bloco ${i}:`, e);
         }
     }
-    
+
     console.log(`\n✅ Vetorização concluída! Temos ${vectorStore.length} vetores prontos.`);
 
     // Salva o cache
@@ -179,15 +185,55 @@ function cosineSimilarity(vecA, vecB) {
 
 // --- ROTAS ---
 
+// --- ROTA DE TREINAMENTO (ADMIN) ---
+// Usamos o 'upload.single' do Multer que já configuramos
+app.post('/api/train', upload.single('file'), async (req, res) => {
+    try {
+        if (!req.file) return res.status(400).json({ error: "Nenhum arquivo enviado." });
+
+        const inputPath = req.file.path; // Caminho do PDF/DOCX que chegou
+        const mdFileName = `${req.file.filename}.md`;
+        const outputPath = path.join(DOCUMENTS_PATH, mdFileName);
+
+        console.log(`\n🔄 Iniciando conversão: ${req.file.originalname} -> Markdown`);
+
+        // Comando para rodar o seu script Python
+        // O '@' no caminho ajuda o Windows a não se perder com as barras
+        const pythonCommand = `python converter.py "${inputPath}" "${outputPath}"`;
+
+        const { stdout } = await execPromise(pythonCommand);
+
+        if (stdout.includes("SUCESSO")) {
+            console.log("✅ Conversão concluída pelo Docling.");
+
+            // AGORA O PULO DO GATO: Mandar a IA ler os novos arquivos
+            // Vamos resetar a base e rodar o initAI de novo
+            knowledgeBase = [];
+            await initAI();
+
+            res.json({
+                message: "IA Treinada com sucesso!",
+                file: mdFileName
+            });
+        } else {
+            throw new Error(stdout);
+        }
+
+    } catch (error) {
+        console.error("❌ Erro no treinamento:", error);
+        res.status(500).json({ error: "Falha ao processar documento." });
+    }
+});
+
 // --- ROTA: ADICIONAR EQUIPAMENTO COM IMAGEM ---
 // O 'upload.single("image")' intercepta o arquivo enviado pelo front e salva na pasta uploads
 app.post('/api/equipment', upload.single('image'), async (req, res) => {
     try {
         const { name, description, status } = req.body;
-        
+
         // Se o admin enviou uma foto, o Multer guarda o caminho dela aqui. Se não, fica nulo.
         const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
-        
+
         const newEquipment = await prisma.equipment.create({
             data: {
                 name: name,
@@ -196,7 +242,7 @@ app.post('/api/equipment', upload.single('image'), async (req, res) => {
                 status: status || "DISPONIVEL"
             }
         });
-        
+
         res.status(201).json({ message: "Equipamento salvo com imagem!", equipment: newEquipment });
     } catch (error) {
         console.error("❌ Erro ao adicionar equipamento:", error);
@@ -209,20 +255,20 @@ app.put('/api/equipment/:id', upload.single('image'), async (req, res) => {
     try {
         const equipmentId = parseInt(req.params.id);
         const { name, description, status } = req.body;
-        
+
         // Prepara os dados que vão ser atualizados
         let updateData = { name, description, status };
-        
+
         // Se uma nova imagem foi enviada, atualiza o caminho dela também
         if (req.file) {
             updateData.imagePath = `/uploads/${req.file.filename}`;
         }
-        
+
         const updatedEquipment = await prisma.equipment.update({
             where: { id: equipmentId },
             data: updateData
         });
-        
+
         res.json({ message: "Equipamento atualizado!", equipment: updatedEquipment });
     } catch (error) {
         console.error("❌ Erro ao atualizar equipamento:", error);
@@ -234,11 +280,11 @@ app.post('/api/register', async (req, res) => {
     try {
         const { fullName, email, ra, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 8);
-        
+
         await prisma.user.create({
             data: { name: fullName, email, ra, password: hashedPassword }
         });
-        
+
         res.json({ message: "Sucesso!" });
     } catch (error) {
         res.status(400).json({ error: "Erro ao cadastrar. E-mail ou RA já existem." });
@@ -248,12 +294,12 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        
+
         const user = await prisma.user.findUnique({ where: { email } });
         if (!user) return res.status(404).json({ error: "Usuário não encontrado." });
-        
+
         if (!(await bcrypt.compare(password, user.password))) return res.status(401).json({ error: "Senha inválida." });
-        
+
         const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: 86400 });
         res.json({ auth: true, token, name: user.name, id: user.id, role: user.role });
     } catch (error) {
@@ -356,12 +402,12 @@ app.post('/api/chat', async (req, res) => {
                 if (!line) continue;
                 try {
                     const json = JSON.parse(line);
-                    
+
                     // Se tiver pedaço de texto, envia
                     if (json.response) {
                         res.write(json.response);
                     }
-                    
+
                     // Se o Ollama disser que acabou, ENCERRA a conexão
                     if (json.done) {
                         res.end(); // <--- O PULO DO GATO PARA NÃO TRAVAR
