@@ -3,16 +3,15 @@ import Navbar from './components/Navbar';
 import { Routes, Route } from 'react-router-dom';
 
 // --- IMPORTAÇÃO DAS PÁGINAS ---
-// Certifique-se de que os arquivos existem nestes caminhos exatos:
-
 import Home from './components/pages/Home';
 import Assistente from './components/pages/Assistente';
 import Equipamentos from './components/pages/Equipamentos';
-import Documentacao from './components/pages/Documentacao'; // SEM ACENTO!
+import Documentacao from './components/pages/Documentacao'; 
 import Contato from './components/pages/Contato';
 import Login from './components/pages/Login';
 import Cadastro from './components/pages/Cadastro';
 import Agendamento from './components/pages/Agendamento';
+import AdminTrain from './components/pages/AdminTrain'; // <-- Nova tela do Admin 23/04/2026
 
 function App() {
   return (
@@ -31,6 +30,9 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/cadastro' element={<Cadastro />} />
             <Route path='/agendamento' element={<Agendamento />} />
+            
+            {/* Rotas de Administração */}
+            <Route path='/admin' element={<AdminTrain />} />
           </Routes>
       </main>
     </>

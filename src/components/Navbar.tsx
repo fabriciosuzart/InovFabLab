@@ -1,12 +1,24 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import logoImage from '../assets/images/logofablab.png'; 
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+  const navigate = useNavigate();
+
+  // Recupera os dados do usuário salvos no login
+  const userName = localStorage.getItem('userName');
+  const userRole = localStorage.getItem('userRole');
+
   const closeMobileMenu = () => setIsMenuOpen(false);
+
+  // Função para limpar o acesso e deslogar
+  const handleLogout = () => {
+    localStorage.clear();
+    closeMobileMenu();
+    navigate('/login');
+  };
 
   return (
     <nav className="navbar">
@@ -18,35 +30,47 @@ const Navbar: React.FC = () => {
 
         <ul className={isMenuOpen ? "nav-menu active" : "nav-menu"}>
           <li className="nav-item">
-            <Link to="/" className="nav-link" onClick={closeMobileMenu}>
-              Home
-            </Link>
+            <Link to="/" className="nav-link" onClick={closeMobileMenu}>Home</Link>
           </li>
           <li className="nav-item">
-            <Link to="/assistente" className="nav-link" onClick={closeMobileMenu}>
-              Assistente IA
-            </Link>
+            <Link to="/assistente" className="nav-link" onClick={closeMobileMenu}>Assistente IA</Link>
           </li>
           <li className="nav-item">
-            <Link to="/equipamentos" className="nav-link" onClick={closeMobileMenu}>
-              Equipamentos
-            </Link>
+            <Link to="/equipamentos" className="nav-link" onClick={closeMobileMenu}>Equipamentos</Link>
           </li>
           <li className="nav-item">
-            <Link to="/documentacao" className="nav-link" onClick={closeMobileMenu}>
-              Documentação
-            </Link>
+            <Link to="/documentacao" className="nav-link" onClick={closeMobileMenu}>Documentação</Link>
           </li>
           <li className="nav-item">
-            <Link to="/contato" className="nav-link" onClick={closeMobileMenu}>
-              Contato
-            </Link>
+            <Link to="/contato" className="nav-link" onClick={closeMobileMenu}>Contato</Link>
           </li>
-          {/* NOVO ITEM ADICIONADO AQUI 👇 */}
+
+          {/* ITEM EXCLUSIVO PARA ADMINISTRADOR 👇 */}
+          {userRole === 'ADMIN' && (
+            <li className="nav-item">
+              <Link 
+                to="/admin" 
+                className="nav-link" 
+                style={{ color: '#ffcc00', fontWeight: 'bold' }} 
+                onClick={closeMobileMenu}
+              >
+                ⚙️ Painel Admin
+              </Link>
+            </li>
+          )}
+
+          {/* LÓGICA DE LOGIN / LOGOUT 👇 */}
           <li className="nav-item">
-            <Link to="/login" className="nav-link login-btn" onClick={closeMobileMenu}>
-              Login
-            </Link>
+            {userName ? (
+              <div className="user-nav-box">
+                <span className="nav-user-name">Olá, {userName.split(' ')[0]}</span>
+                <button className="logout-btn" onClick={handleLogout}>Sair</button>
+              </div>
+            ) : (
+              <Link to="/login" className="nav-link login-btn" onClick={closeMobileMenu}>
+                Login
+              </Link>
+            )}
           </li>
         </ul>
 
