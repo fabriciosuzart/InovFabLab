@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './Cadastro.css'; // Pode reusar o Login.css se quiser, pois são iguais
+import './Cadastro.css';
 
 const Cadastro: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -47,40 +47,62 @@ const Cadastro: React.FC = () => {
     };
 
     return (
-        <div className="auth-container">
-            <main>
-                <h1 style={{textAlign: 'center'}}>Crie sua Conta</h1>
-                <p style={{textAlign: 'center', color: '#777'}}>Faça seu cadastro para acessar os recursos.</p>
-
-                <form className="auth-form" onSubmit={handleRegister}>
-                    <div className="form-group">
-                        <label htmlFor="fullName">Nome Completo</label>
-                        <input type="text" id="fullName" value={formData.fullName} onChange={handleChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="email">E-mail Institucional</label>
-                        <input type="email" id="email" value={formData.email} onChange={handleChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="ra">RA (Matrícula)</label>
-                        <input type="text" id="ra" value={formData.ra} onChange={handleChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Criar Senha</label>
-                        <input type="password" id="password" value={formData.password} onChange={handleChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="confirmPassword">Confirmar Senha</label>
-                        <input type="password" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
+        <div className="signup-page">
+            <div className="signup-card">
+                
+                {/* Lado Esquerdo: Formulário com Glassmorphism */}
+                <div className="signup-content">
+                    <div className="signup-header">
+                        <h1 className="signup-title">Criar Conta</h1>
+                        <p>Junte-se ao InovFabLab e comece a inovar hoje mesmo.</p>
                     </div>
 
-                    <button type="submit" className="submit-button">Criar Conta</button>
-                    
-                    <div className="auth-link">
-                        <p>Já tem uma conta? <Link to="/login">Faça login</Link></p>
+                    <form className="signup-form" onSubmit={handleRegister}>
+                        <div className="signup-field">
+                            <label htmlFor="fullName">Nome Completo</label>
+                            <input type="text" id="fullName" placeholder="Ex: Juliana Santos" value={formData.fullName} onChange={handleChange} required />
+                        </div>
+                        
+                        <div className="signup-row">
+                            <div className="signup-field">
+                                <label htmlFor="email">E-mail Institucional</label>
+                                <input type="email" id="email" placeholder="nome@unisanta.br" value={formData.email} onChange={handleChange} required />
+                            </div>
+                            <div className="signup-field">
+                                <label htmlFor="ra">RA (Matrícula)</label>
+                                <input type="text" id="ra" placeholder="Seu RA" value={formData.ra} onChange={handleChange} required />
+                            </div>
+                        </div>
+
+                        <div className="signup-row">
+                            <div className="signup-field">
+                                <label htmlFor="password">Criar Senha</label>
+                                <input type="password" id="password" placeholder="Mínimo 6 caracteres" value={formData.password} onChange={handleChange} required />
+                            </div>
+                            <div className="signup-field">
+                                <label htmlFor="confirmPassword">Confirmar Senha</label>
+                                <input type="password" id="confirmPassword" placeholder="Repita a senha" value={formData.confirmPassword} onChange={handleChange} required />
+                            </div>
+                        </div>
+
+                        <button type="submit" className="signup-button">Cadastrar Agora</button>
+                        
+                        <div className="auth-link">
+                            <p>Já tem uma conta? <Link to="/login" className="login-link">Faça login</Link></p>
+                        </div>
+                    </form>
+                </div>
+
+                {/* Lado Direito: Imagem e Inspiração */}
+                <div className="signup-image-panel">
+                    <img src="/background2.png" alt="InovFabLab Background" />
+                    <div className="image-overlay">
+                        <h2>Construa o Futuro</h2>
+                        <p>Acesse impressoras 3D, cortadoras a laser e a mentoria de nossa IA exclusiva.</p>
                     </div>
-                </form>
-            </main>
+                </div>
+
+            </div>
         </div>
     );
 };

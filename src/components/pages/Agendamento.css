@@ -1,120 +1,190 @@
-/* Container que centraliza tudo verticalmente e horizontalmente */
+/* === AGENDAMENTO - PREMIUM DARK THEME === */
+
 .agendamento-page {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    min-height: calc(100vh - 80px); /* Altura total menos navbar */
-    background-color: #f2f4fb; /* Garante o fundo cinza claro */
+  min-height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  font-family: 'Inter', sans-serif;
 }
 
-/* O Cartão Branco do Formulário */
+/* Card Principal */
 .schedule-card {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* Sombra suave */
-    width: 100%;
-    max-width: 600px; /* Largura máxima para não ficar esticado */
+  width: 100%;
+  max-width: 700px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 28px;
+  padding: 50px;
+  backdrop-filter: blur(25px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  animation: cardAppear 0.5s ease-out;
 }
 
-/* Cabeçalho dentro do Card */
+@keyframes cardAppear {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header */
 .schedule-header {
-    text-align: center;
-    margin-bottom: 30px;
+  text-align: center;
+  margin-bottom: 40px;
 }
 
 .schedule-header h1 {
-    margin: 0;
-    color: #2c3e50;
-    font-size: 1.8rem;
-    font-weight: 700;
+  font-size: 2.8rem;
+  font-weight: 900;
+  margin: 0 0 12px 0;
+  background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .schedule-header p {
-    color: #7f8c8d;
-    margin-top: 8px;
+  color: #94a3b8;
+  font-size: 1.1rem;
+  margin: 0;
 }
 
-/* Estilos dos Inputs e Labels */
+/* Formulário */
+.schedule-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .form-group {
-    margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #34495e;
-    font-size: 0.95rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Inputs (Select, Date, Time) */
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #e0e0e0; /* Borda sutil */
-    border-radius: 8px;
-    font-size: 1rem;
-    background-color: #f9f9f9;
-    transition: border-color 0.2s, background-color 0.2s;
-    font-family: inherit;
-    box-sizing: border-box;
+/* Select Wrapper (seta customizada) */
+.select-wrapper {
+  position: relative;
 }
 
-/* Efeito ao clicar no campo */
-.form-group input:focus,
-.form-group select:focus {
-    border-color: #007bff;
-    background-color: #fff;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+.select-wrapper::after {
+  content: '▾';
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #38bdf8;
+  font-size: 1.2rem;
+  pointer-events: none;
 }
 
-/* Linha para Data e Hora ficarem lado a lado */
+.select-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 40px;
+}
+
+/* Inputs */
+.schedule-form input,
+.schedule-form select {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.25);
+  color: #f8fafc;
+  font-size: 1rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.schedule-form select option {
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 10px;
+}
+
+.schedule-form input:focus,
+.schedule-form select:focus {
+  border-color: #38bdf8;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1), 0 0 20px rgba(56, 189, 248, 0.1);
+}
+
+/* Data e Hora lado a lado */
 .form-row {
-    display: flex;
-    gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
-.form-row .form-group {
-    flex: 1; /* Ocupam espaço igual */
+@media (max-width: 500px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .schedule-card {
+    padding: 30px 20px;
+  }
+  .schedule-header h1 {
+    font-size: 2rem;
+  }
 }
 
-/* Botão de Enviar */
+/* Estilo especial para inputs de data e hora */
+.schedule-form input[type="date"],
+.schedule-form input[type="time"] {
+  color-scheme: dark;
+}
+
+/* Botão Enviar */
 .submit-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    width: 100%;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
-    margin-top: 10px;
+  margin-top: 10px;
+  width: 100%;
+  padding: 18px 0;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+  color: white;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: left 0.5s ease;
+}
+
+.submit-button:hover::before {
+  left: 100%;
 }
 
 .submit-button:hover {
-    background-color: #0056b3;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(14, 165, 233, 0.5);
 }
 
 .submit-button:active {
-    transform: scale(0.98); /* Pequeno efeito de clique */
-}
-
-/* Responsividade para Celular */
-@media (max-width: 600px) {
-    .schedule-card {
-        padding: 25px;
-        margin: 0 15px; /* Margem lateral no celular */
-    }
-
-    .form-row {
-        flex-direction: column; /* Data e Hora um embaixo do outro no celular */
-        gap: 0;
-    }
+  transform: translateY(-1px);
 }

@@ -3,33 +3,59 @@ import './Documentacao.css';
 
 const Documentacao: React.FC = () => {
   return (
-    <div className="container">
+    <div className="docs-container">
         <main>
             <h1>Documentação e Manuais</h1>
-            <p>Acesse os guias de uso e segurança para todos os nossos equipamentos.</p>
+            <p style={{textAlign: 'center', color: '#cbd5e1', marginBottom: '40px'}}>
+                Acesse os guias de uso e segurança para todos os nossos equipamentos.
+            </p>
             
-            <ul className="doc-list">
-                <li className="doc-item">
-                    <h3>Manual da Impressora 3D Finder</h3>
-                    <a href="#" target="_blank" rel="noopener noreferrer">Baixar PDF</a>
-                </li>
-                <li className="doc-item">
-                    <h3>Guia de Segurança da Cortadora a Laser</h3>
-                    <a href="#" target="_blank" rel="noopener noreferrer">Baixar PDF</a>
-                </li>
-                
-                {/* --- NOVO ITEM ADICIONADO AQUI --- */}
-                <li className="doc-item">
-                    <h3>Termos de Uso do Laboratório</h3>
-                    {/* Certifique-se que o arquivo 'Termos_de_Uso.pdf' está na pasta 'public' */}
-                    <a href="/Termos_de_Uso.pdf" target="_blank" rel="noopener noreferrer">Baixar PDF</a>
-                </li>
+            <div className="doc-section">
+                <h2>Impressão 3D</h2>
+                <ul className="doc-list" style={{listStyle: 'none', padding: 0}}>
+                    <li style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '15px 0'}}>
+                        <div>
+                            <strong style={{color: '#f8fafc', fontSize: '1.1rem'}}>Manual da Impressora 3D Finder</strong>
+                            <p style={{margin: '5px 0 0 0', fontSize: '0.9rem'}}>Guia completo de operação e troca de filamento.</p>
+                        </div>
+                        <a href="#" target="_blank" rel="noopener noreferrer" style={{background: 'rgba(56, 189, 248, 0.2)', color: '#38bdf8', padding: '8px 16px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold'}}>Baixar PDF</a>
+                    </li>
+                </ul>
+            </div>
 
-                 <li className="doc-item">
-                    <h3>Procedimento de Agendamento</h3>
-                    <a href="#" target="_blank" rel="noopener noreferrer">Ler Online</a>
-                </li>
-            </ul>
+            <div className="doc-section">
+                <h2>Corte a Laser</h2>
+                <ul className="doc-list" style={{listStyle: 'none', padding: 0}}>
+                    <li style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '15px 0'}}>
+                        <div>
+                            <strong style={{color: '#f8fafc', fontSize: '1.1rem'}}>Guia de Segurança da Cortadora a Laser</strong>
+                            <p style={{margin: '5px 0 0 0', fontSize: '0.9rem'}}>Normas de segurança e materiais permitidos para corte.</p>
+                        </div>
+                        <a href="#" target="_blank" rel="noopener noreferrer" style={{background: 'rgba(56, 189, 248, 0.2)', color: '#38bdf8', padding: '8px 16px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold'}}>Baixar PDF</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div className="doc-section">
+                <h2>Regras do Laboratório</h2>
+                <ul className="doc-list" style={{listStyle: 'none', padding: 0}}>
+                    <li style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '15px 0'}}>
+                        <div>
+                            <strong style={{color: '#f8fafc', fontSize: '1.1rem'}}>Termos de Uso do Laboratório</strong>
+                            <p style={{margin: '5px 0 0 0', fontSize: '0.9rem'}}>Regulamento geral para utilização do espaço Maker.</p>
+                        </div>
+                        <a href="/Termos_de_Uso.pdf" target="_blank" rel="noopener noreferrer" style={{background: 'rgba(56, 189, 248, 0.2)', color: '#38bdf8', padding: '8px 16px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold'}}>Baixar PDF</a>
+                    </li>
+                    <li style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px 0'}}>
+                        <div>
+                            <strong style={{color: '#f8fafc', fontSize: '1.1rem'}}>Procedimento de Agendamento</strong>
+                            <p style={{margin: '5px 0 0 0', fontSize: '0.9rem'}}>Passo a passo de como reservar os equipamentos.</p>
+                        </div>
+                        <a href="#" target="_blank" rel="noopener noreferrer" style={{background: 'rgba(56, 189, 248, 0.2)', color: '#38bdf8', padding: '8px 16px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold'}}>Ler Online</a>
+                    </li>
+                </ul>
+            </div>
+            
         </main>
     </div>
   );

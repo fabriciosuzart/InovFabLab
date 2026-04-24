@@ -175,7 +175,7 @@ const Assistente: React.FC = () => {
         <div className="chat-history">
           {messages.map((msg) => (
             <div key={msg.id} className={`message ${msg.sender}`}>
-            <div className="avatar">{msg.sender === 'ai' ? 'IA' : 'VC'}</div>
+            <div className="avatar">{msg.sender === 'ai' ? '🤖' : '👤'}</div>
             <div className="message-content">
               {/* Se for IA e o texto estiver vazio, mostra o indicador, senão mostra o texto */}
               <p>
@@ -223,7 +223,7 @@ const Assistente: React.FC = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Digite ou fale..." 
+                placeholder="Digite sua dúvida ou use o microfone..." 
                 rows={1}
                 disabled={isLoading} 
               />

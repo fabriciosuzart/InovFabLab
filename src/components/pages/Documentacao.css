@@ -1,93 +1,71 @@
-.container {
-    padding: 60px 20px;
+/* Fundo Dark Theme */
+.docs-container {
+  padding: 60px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  min-height: calc(100vh - 80px);
+  color: #f8fafc;
+  font-family: 'Inter', sans-serif;
 }
 
-main h1 {
-    text-align: center;
-    color: #2c3e50;
-    margin-bottom: 10px;
-    font-weight: 800;
+.docs-container h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  margin-bottom: 40px;
+  text-align: center;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-main p {
-    text-align: center;
-    color: #555;
-    margin-bottom: 50px;
+/* Cards Glassmorphism */
+.doc-section {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 40px;
+  margin-bottom: 30px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
 }
 
-.doc-list {
-    list-style: none;
-    padding: 0;
-    max-width: 900px;
-    margin: 0 auto;
-    display: grid;
-    gap: 20px; /* Espaço entre os itens */
+.doc-section:hover {
+  transform: translateY(-5px);
+  border-color: rgba(56, 189, 248, 0.2);
 }
 
-/* Item como Cartão */
-.doc-item {
-    background-color: #ffffff;
-    border-radius: 16px;
-    padding: 25px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-    /* Sombra e Borda */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(0,0,0,0.05);
-    border-left: 6px solid #007bff; /* Detalhe visual */
-    
-    transition: transform 0.2s, box-shadow 0.2s;
+.doc-section h2 {
+  font-size: 1.8rem;
+  color: #38bdf8;
+  margin-top: 0;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.doc-item:hover {
-    transform: translateY(-3px); /* Sobe um pouco */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+.doc-section p, .doc-section li {
+  color: #cbd5e1;
+  line-height: 1.7;
+  font-size: 1.05rem;
 }
 
-.doc-item h3 {
-    margin: 0;
-    font-size: 1.2rem;
-    color: #2c3e50;
-    font-weight: 700;
+.doc-section ul {
+  padding-left: 20px;
 }
 
-.doc-item a {
-    background-color: #eef2ff; /* Fundo azulzinho */
-    color: #007bff;
-    text-decoration: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-    white-space: nowrap;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+.doc-section li {
+  margin-bottom: 10px;
 }
 
-/* Ícone falso com CSS (opcional, para dar charme) */
-.doc-item a::after {
-    content: '⬇'; /* Seta */
-    font-size: 1.1em;
-}
-
-.doc-item a:hover {
-    background-color: #007bff;
-    color: white;
-    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
-}
-
-@media (max-width: 600px) {
-    .doc-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-    .doc-item a {
-        width: 100%;
-        justify-content: center;
-    }
+/* Código em destaque */
+code {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: #f472b6;
+  font-family: monospace;
 }

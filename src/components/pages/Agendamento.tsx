@@ -1,30 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Agendamento.css';
 
 // Lista completa de equipamentos para garantir que todos apareçam
 const equipmentList = [
-  "Impressora 3D Finder 01",
-  "Impressora 3D Finder 02",
-  "Cortadora a Laser",
-  "Prototipadora",
-  "Bambu Lab A1",
-  "Bambu Lab A2",
-  "Micro Retífica",
-  "Plotter de Recorte",
-  "X1 Carbon Combo - Impressora 3D",
-  "Estação de Solda 01",
-  "Estação de Solda 02",
-  "Furadeira de Bancada",
-  "Serra Tico-Tico",
-  "Máquina de Costura",
-  "Parafusadeira e Furadeira a Bateria",
-  "Lixadeira Portátil DEWALT"
+  { name: "Impressora 3D Finder 01", icon: "🖨️" },
+  { name: "Impressora 3D Finder 02", icon: "🖨️" },
+  { name: "Cortadora a Laser", icon: "⚡" },
+  { name: "Prototipadora", icon: "🔧" },
+  { name: "Bambu Lab A1", icon: "🖨️" },
+  { name: "Bambu Lab A2", icon: "🖨️" },
+  { name: "Micro Retífica", icon: "🔩" },
+  { name: "Plotter de Recorte", icon: "✂️" },
+  { name: "X1 Carbon Combo - Impressora 3D", icon: "🖨️" },
+  { name: "Estação de Solda 01", icon: "🔥" },
+  { name: "Estação de Solda 02", icon: "🔥" },
+  { name: "Furadeira de Bancada", icon: "🔩" },
+  { name: "Serra Tico-Tico", icon: "🪚" },
+  { name: "Máquina de Costura", icon: "🧵" },
+  { name: "Parafusadeira e Furadeira a Bateria", icon: "🔧" },
+  { name: "Lixadeira Portátil DEWALT", icon: "🛠️" },
 ];
 
 const Agendamento: React.FC = () => {
     const [equipment, setEquipment] = useState('');
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
+
+    // Trava de login: redireciona se não estiver autenticado
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+        } else {
+            setIsLoggedIn(true);
+        }
+    }, [navigate]);
+
+    // Não renderiza nada enquanto verifica autenticação
+    if (!isLoggedIn) return null;
 
     const handleSchedule = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -57,11 +73,11 @@ const Agendamento: React.FC = () => {
     };
 
     return (
-        <div className="container agendamento-page">
+        <div className="agendamento-page">
             <div className="schedule-card">
                 <div className="schedule-header">
-                    <h1>Agendamento Manual</h1>
-                    <p>Reserve o equipamento desejado para garantir seu uso.</p>
+                    <h1>📅 Agendar Equipamento</h1>
+                    <p>Reserve o equipamento desejado para garantir seu uso no laboratório.</p>
                 </div>
 
                 <form className="schedule-form" onSubmit={handleSchedule}>
@@ -75,9 +91,8 @@ const Agendamento: React.FC = () => {
                                 required
                             >
                                 <option value="" disabled>-- Escolha um item --</option>
-                                {/* Gera a lista automaticamente baseado no array lá de cima */}
                                 {equipmentList.map((item, index) => (
-                                    <option key={index} value={item}>{item}</option>
+                                    <option key={index} value={item.name}>{item.icon} {item.name}</option>
                                 ))}
                             </select>
                         </div>

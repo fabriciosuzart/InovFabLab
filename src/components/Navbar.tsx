@@ -63,7 +63,9 @@ const Navbar: React.FC = () => {
           <li className="nav-item">
             {userName ? (
               <div className="user-nav-box">
-                <span className="nav-user-name">Olá, {userName.split(' ')[0]}</span>
+                <Link to="/perfil" className="nav-user-name" style={{ textDecoration: 'none', color: '#004aad', fontWeight: 'bold' }} onClick={closeMobileMenu}>
+                  Olá, {userName.split(' ')[0]}
+                </Link>
                 <button className="logout-btn" onClick={handleLogout}>Sair</button>
               </div>
             ) : (

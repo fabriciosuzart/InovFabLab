@@ -1,113 +1,251 @@
-/* Centraliza na tela */
-.auth-container {
-    min-height: calc(100vh - 80px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    /* O fundo já vem do body */
+/* Fundo Principal Premium */
+.login-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  font-family: 'Inter', sans-serif;
 }
 
-/* Títulos */
-main h1 {
-    color: #2c3e50;
-    margin-bottom: 10px;
-    font-size: 2.2rem;
-    text-align: center;
-    font-weight: 800;
+/* Card Principal (Glassmorphism e Layout Dividido) */
+.login-card {
+  width: 100%;
+  max-width: 1000px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 30px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  transform: translateY(0);
+  transition: transform 0.3s ease;
 }
 
-main p {
-    color: #555;
-    margin-bottom: 30px;
-    text-align: center;
-    font-size: 1.1rem;
+/* Lado do Formulário */
+.login-content {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-/* O Cartão - Agora com detalhe colorido */
-.auth-form {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 20px; /* Mais arredondado */
-    
-    /* Sombra mais profunda e elegante */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    
-    /* Acento de cor no topo */
-    border-top: 6px solid #007bff;
-    
-    width: 100%;
-    max-width: 450px;
+.login-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 10px 0;
+  background: linear-gradient(90deg, #0ea5e9, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* Campos de Input */
-.form-group {
-    margin-bottom: 20px;
+.subtitle {
+  color: #64748b;
+  font-size: 1.1rem;
+  margin: 0 0 30px 0;
 }
 
-.form-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #2c3e50;
-    font-size: 0.95rem;
+/* Campos do Formulário */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.form-group input {
-    width: 100%;
-    padding: 14px 15px;
-    border: 1px solid #ddd; /* Borda mais sutil */
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    
-    /* Fundo levemente cinza para destacar do cartão branco */
-    background-color: #f8f9fa;
-    box-sizing: border-box;
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.form-group input:focus {
-    border-color: #007bff;
-    background-color: #fff;
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15);
+.login-field label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #334155;
 }
 
-/* Botão com Gradiente */
-.submit-button {
-    background: linear-gradient(to right, #007bff, #0056b3); /* Gradiente no botão */
-    color: white;
-    border: none;
-    padding: 16px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 1.1rem;
-    width: 100%;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    margin-top: 15px;
-    letter-spacing: 0.5px;
+.login-field input {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background-color: #f8fafc;
+  font-size: 1rem;
+  color: #0f172a;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
 }
 
-.submit-button:hover {
-    transform: translateY(-2px); /* Sobe um pouquinho */
-    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+.login-field input:focus {
+  background-color: #ffffff;
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
 }
 
-.auth-link {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 0.95rem;
-    color: #666;
+.login-button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 16px 0;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0ea5e9, #4f46e5);
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.auth-link a {
-    color: #007bff;
-    font-weight: 700;
-    text-decoration: none;
+.login-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 25px rgba(14, 165, 233, 0.5);
 }
 
-.auth-link a:hover {
-    text-decoration: underline;
+.forgot-password-link {
+  color: #0ea5e9;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.forgot-password-link:hover {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+.signup-link {
+  color: #0ea5e9;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.signup-link:hover {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+/* Painel de Imagem (Lado Direito) */
+.login-image-panel {
+  flex: 1;
+  position: relative;
+  background-color: #0f172a;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.login-image-panel img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  transition: transform 0.8s ease;
+}
+
+.login-card:hover .login-image-panel img {
+  transform: scale(1.05);
+}
+
+.image-overlay {
+  position: relative;
+  z-index: 2;
+  padding: 50px 40px;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0) 100%);
+  color: white;
+  width: 100%;
+}
+
+.image-overlay h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+}
+
+.image-overlay p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin: 0;
+  color: #cbd5e1;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .login-card {
+    flex-direction: column-reverse;
+  }
+  .login-content {
+    padding: 40px 30px;
+  }
+  .login-image-panel {
+    min-height: 250px;
+  }
+}
+
+/* === ACESSIBILIDADE: Input com Microfone === */
+.input-with-mic {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-with-mic input {
+  flex: 1;
+}
+
+.mic-field-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.mic-field-btn:hover {
+  border-color: #38bdf8;
+  background: #e0f2fe;
+}
+
+.mic-field-btn.active {
+  border-color: #ef4444;
+  background: #fef2f2;
+  animation: pulse-field-mic 1.5s infinite;
+}
+
+@keyframes pulse-field-mic {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); box-shadow: 0 0 10px rgba(239, 68, 68, 0.4); }
+  100% { transform: scale(1); }
+}
+
+/* Barra de status de voz */
+.voice-login-status {
+  background: linear-gradient(135deg, #0ea5e9, #4f46e5);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 15px;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

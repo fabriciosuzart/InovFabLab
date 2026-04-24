@@ -12,8 +12,11 @@ import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
 import ollama from 'ollama';
 import multer from 'multer';
+import pkg from 'wavefile';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+
+const { WaveFile } = pkg;
 const execPromise = promisify(exec);
 
 const require = createRequire(import.meta.url);
@@ -92,31 +95,31 @@ async function loadDocuments() {
             } else if (ext === '.txt') {
                 textContent = fs.readFileSync(filePath, 'utf-8');
             } else if (ext === '.md' || ext === '.txt') {
-            textContent = fs.readFileSync(filePath, 'utf-8');
+                textContent = fs.readFileSync(filePath, 'utf-8');
             }
 
 
-        if (textContent) {
-            // CÓDIGO NOVO (MANTÉM AS QUEBRAS DE LINHA)
-            // Remove apenas excesso de espaços, mas respeita o \n
-            const cleanText = textContent.replace(/\r/g, '').replace(/\n\s*\n/g, '\n').trim();
+            if (textContent) {
+                // CÓDIGO NOVO (MANTÉM AS QUEBRAS DE LINHA)
+                // Remove apenas excesso de espaços, mas respeita o \n
+                const cleanText = textContent.replace(/\r/g, '').replace(/\n\s*\n/g, '\n').trim();
 
-            // --- MELHORIA 1: CHUNKS MAIORES (2000 caracteres) ---
-            // Isso garante que listas longas fiquem juntas no mesmo contexto
-            const chunkSize = 2000;
-            for (let i = 0; i < cleanText.length; i += chunkSize) {
-                const chunk = cleanText.substring(i, i + chunkSize);
-                knowledgeBase.push({
-                    source: `Arquivo: ${file}`,
-                    text: chunk
-                });
+                // --- MELHORIA 1: CHUNKS MAIORES (2000 caracteres) ---
+                // Isso garante que listas longas fiquem juntas no mesmo contexto
+                const chunkSize = 2000;
+                for (let i = 0; i < cleanText.length; i += chunkSize) {
+                    const chunk = cleanText.substring(i, i + chunkSize);
+                    knowledgeBase.push({
+                        source: `Arquivo: ${file}`,
+                        text: chunk
+                    });
+                }
+                console.log(`   ✅ Lido: ${file}`);
             }
-            console.log(`   ✅ Lido: ${file}`);
+        } catch (error) {
+            console.error(`   ❌ Erro ao ler ${file}:`, error.message);
         }
-    } catch (error) {
-        console.error(`   ❌ Erro ao ler ${file}:`, error.message);
     }
-}
 }
 
 async function initAI() {
@@ -423,6 +426,57 @@ app.post('/api/chat', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).end("Erro na IA.");
+    }
+});
+
+// --- ROTA DE TRANSCRIÇÃO (WHISPER) ---
+
+let transcriber = null;
+
+app.post('/api/transcribe', upload.single('audio'), async (req, res) => {
+    try {
+        if (!req.file) return res.status(400).json({ error: "Nenhum áudio enviado." });
+
+        console.log(`🎙️ Novo áudio recebido para transcrição: ${req.file.filename}`);
+
+        // 1. Inicializa o Whisper (baixa o modelo na primeira vez)
+        if (!transcriber) {
+            console.log("⚙️ Carregando modelo Whisper-Small na memória (primeira vez pode demorar ~5min para baixar ~460MB)...");
+            transcriber = await pipeline('automatic-speech-recognition', 'Xenova/whisper-small');
+            console.log("✅ Whisper-Small carregado!");
+        }
+
+        // 2. Lê o arquivo de áudio WAV gerado pelo frontend
+        let buffer = fs.readFileSync(req.file.path);
+
+        // 3. Converte o WAV para o formato exigido pelo Whisper (16kHz Float32Array)
+        let wav = new WaveFile(buffer);
+        wav.toBitDepth('32f');
+        wav.toSampleRate(16000);
+
+        let audioData = wav.getSamples();
+        if (Array.isArray(audioData)) {
+            // Pega apenas o primeiro canal se for estéreo
+            audioData = audioData[0];
+        }
+
+        // 4. Executa a transcrição FORÇANDO PORTUGUÊS
+        console.log("🧠 Transcrevendo em Português...");
+        let output = await transcriber(audioData, {
+            language: 'portuguese',
+            task: 'transcribe',
+        });
+
+        console.log(`✅ Texto transcrito: "${output.text}"`);
+
+        // Deleta o arquivo temporário
+        fs.unlinkSync(req.file.path);
+
+        res.json({ text: output.text });
+
+    } catch (error) {
+        console.error("❌ Erro no Whisper:", error);
+        res.status(500).json({ error: "Falha ao processar áudio." });
     }
 });
 

@@ -1,0 +1,209 @@
+/* Fundo Escuro Premium */
+.profile-container {
+  padding: 60px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  min-height: calc(100vh - 80px);
+  color: #f8fafc;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Grid Dividido */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+}
+
+@media (max-width: 768px) {
+  .profile-grid {
+      grid-template-columns: 1fr;
+  }
+}
+
+/* Glassmorphism Cards */
+.profile-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 40px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.info-card {
+  text-align: center;
+}
+
+/* Avatar de Usuário */
+.avatar-circle {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #0ea5e9, #4f46e5);
+  color: white;
+  border-radius: 50%;
+  font-size: 3.5rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+  box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3);
+}
+
+.info-card h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.95rem;
+  color: #cbd5e1;
+}
+
+.info-row strong {
+  color: #f8fafc;
+}
+
+.divider {
+  border: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 30px 0;
+}
+
+.info-card h3 {
+  color: #38bdf8;
+  margin-bottom: 20px;
+}
+
+/* Inputs Modernos */
+.profile-input {
+  width: 100%;
+  padding: 14px 20px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+  color: #f8fafc;
+  font-size: 1rem;
+  box-sizing: border-box;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.profile-input:focus {
+  border-color: #38bdf8;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+/* Botão Salvar */
+.save-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #0ea5e9, #4f46e5);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(14, 165, 233, 0.2);
+  transition: all 0.3s ease;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 25px rgba(14, 165, 233, 0.4);
+}
+
+/* Histórico de Agendamentos */
+.history-card h3 {
+  font-size: 1.8rem;
+  color: #38bdf8;
+  margin-top: 0;
+  margin-bottom: 25px;
+}
+
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-item {
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-left: 5px solid #0ea5e9;
+  background: rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s;
+}
+
+.history-item:hover {
+  transform: translateX(5px);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.history-item.Pendente {
+  border-left-color: #facc15;
+}
+
+.history-item.Aprovado {
+  border-left-color: #4ade80;
+}
+
+.history-item.Rejeitado {
+  border-left-color: #ef4444;
+}
+
+.h-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.h-header strong {
+  font-size: 1.1rem;
+}
+
+.h-date {
+  font-size: 0.95rem;
+  color: #94a3b8;
+}
+
+/* Badges Status */
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  backdrop-filter: blur(5px);
+}
+
+.status-badge.Pendente {
+  background: rgba(250, 204, 21, 0.2);
+  color: #facc15;
+  border: 1px solid rgba(250, 204, 21, 0.3);
+}
+
+.status-badge.Aprovado {
+  background: rgba(74, 222, 128, 0.2);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.status-badge.Rejeitado {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}

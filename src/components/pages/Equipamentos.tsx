@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Equipamentos.css';
 
-// ... (Mantenha sua lista 'equipamentosData' igualzinha estava antes) ...
 const equipamentosData = [
   { id: 1, name: 'Impressora 3D Finder 01', status: 'available', img: 'impressora_3D_finder_01.jpg' },
   { id: 2, name: 'Impressora 3D Finder 02', status: 'available', img: 'impressora_3D_finder_02.jpg' },
@@ -34,49 +33,50 @@ const Equipamentos: React.FC = () => {
     });
 
   return (
-    <div className="container equipment-page">
+    <div className="equipment-page">
       
-      {/* Cabeçalho Moderno: Título na esquerda, Filtros na direita */}
+      {/* Cabeçalho Premium */}
       <header className="page-header">
         <div className="header-title">
-            <h1>Catálogo de Equipamentos</h1>
-            <p>Veja o status e agende o uso das máquinas.</p>
+            <h1>Laboratório de Equipamentos</h1>
+            <p>Descubra as ferramentas para dar vida às suas ideias.</p>
         </div>
 
         <div className="filter-controls">
-            <div className="filter-group">
             <select onChange={(e) => setFilterStatus(e.target.value)} value={filterStatus}>
-                <option value="all">Todos os Status</option>
-                <option value="available">🟢 Disponíveis</option>
-                <option value="in-use">🟡 Em uso</option>
+                <option value="all">Todos os Equipamentos</option>
+                <option value="available">🟢 Disponíveis Hoje</option>
+                <option value="in-use">🟠 Em Manutenção/Uso</option>
             </select>
-            </div>
-            <div className="filter-group">
+            
             <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>
-                <option value="default">Ordenar: Padrão</option>
-                <option value="alphabetical">Ordenar: A-Z</option>
+                <option value="default">Relevância</option>
+                <option value="alphabetical">Ordem Alfabética (A-Z)</option>
             </select>
-            </div>
         </div>
       </header>
 
+      {/* Catálogo de Equipamentos */}
       <div className="equipment-grid">
         {filteredItems.map(item => (
           <div key={item.id} className="card">
+            
             <div className="card-image">
-                <img src={`/${item.img}`} alt={item.name} onError={(e) => e.currentTarget.src = 'https://via.placeholder.com/150?text=Sem+Imagem'} />
-                {/* Badge de Status flutuante */}
+                <img src={`/${item.img}`} alt={item.name} onError={(e) => e.currentTarget.src = 'https://via.placeholder.com/300x200?text=S/IMAGEM'} />
+                
                 <span className={`status-badge ${item.status}`}>
-                    {item.status === 'available' ? 'Disponível' : 'Em uso'}
+                    {item.status === 'available' ? '● Disponível' : '● Em Uso'}
                 </span>
             </div>
             
             <div className="card-content">
                 <h3>{item.name}</h3>
+                
                 <Link to="/agendamento" className="schedule-button">
-                    Agendar Agora
+                    Reservar Horário
                 </Link>
             </div>
+            
           </div>
         ))}
       </div>

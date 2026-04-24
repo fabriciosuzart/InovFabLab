@@ -12,11 +12,15 @@ import Login from './components/pages/Login';
 import Cadastro from './components/pages/Cadastro';
 import Agendamento from './components/pages/Agendamento';
 import AdminTrain from './components/pages/AdminTrain'; // <-- Nova tela do Admin 23/04/2026
+import Perfil from './components/pages/Perfil';
+import NovaSenha from './components/pages/NovaSenha';
+import VoiceNavigator from './components/VoiceNavigator';
 
 function App() {
   return (
     <>
       <Navbar/>
+      <VoiceNavigator />
       <main className="main-content">
           <Routes>
             {/* Rotas Públicas */}
@@ -30,6 +34,8 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/cadastro' element={<Cadastro />} />
             <Route path='/agendamento' element={<Agendamento />} />
+            <Route path='/perfil' element={<Perfil />} />
+            <Route path='/nova-senha' element={<NovaSenha />} />
             
             {/* Rotas de Administração */}
             <Route path='/admin' element={<AdminTrain />} />

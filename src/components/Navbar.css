@@ -1,139 +1,181 @@
-/* Variáveis de cor (mantidas do original) */
-:root {
-  --primary-color: #007BFF;
-  --dark-color: #212529;
-  --light-color: #f8f9fa;
-  --text-color: #ffffff;
-  --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-}
-
+/* Navbar Premium Escura com Glassmorphism */
 .navbar {
-  background-color: #20262B;
-  height: 80px;
-  display: flex;
-  justify-content: center; /* Centraliza o container filho */
-  align-items: center;
-  font-size: 1.2rem;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: var(--shadow);
+  background: rgba(15, 23, 42, 0.85); /* Fundo muito escuro e translúcido */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
 }
 
 .navbar-container {
   display: flex;
-  justify-content: space-between; /* Logo à esquerda, links à direita */
+  justify-content: space-between;
   align-items: center;
-  height: 80px;
   width: 100%;
-  max-width: 1300px; /* Largura máxima do conteúdo */
-  padding: 0 10px; /* Espaçamento nas laterais */
+  max-width: 1200px;
+  padding: 0 20px;
 }
 
-.navbar-logo { /* Alterado de .navbar-logo a para .navbar-logo */
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: white; /* 1. TEXTO DA LOGO EM BRANCO */
+.navbar-logo {
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  display: flex; /* ESSENCIAL: Alinha os itens internos (imagem e texto) */
-  align-items:center; /* Centraliza verticalmente a imagem e o texto */
+  gap: 10px;
 }
 
 .logo-image {
-  height: 65px; /* Defina a altura desejada para sua logo */
-  width: auto; /* A largura se ajustará automaticamente */
-  margin-right: 10px; /* Cria um espaço entre a imagem e o texto */
+  height: 45px;
+  width: auto;
 }
 
+.navbar-logo span {
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 .nav-menu {
   display: flex;
-  align-items: center;
   list-style: none;
   text-align: center;
-  gap: 2rem;
+  align-items: center;
+  gap: 25px;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-item {
-  height: 80px;
-  display: flex;
-  align-items: center;
+  line-height: 40px;
 }
 
 .nav-link {
-  color: var(--text-color);
-  text-decoration: none;
+  color: #cbd5e1;
+  font-size: 1rem;
   font-weight: 600;
-  padding: 0.5rem 1rem;
-  transition: all 0.2s ease-out;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
 .nav-link:hover {
-  color: var(--primary-color);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
 }
 
+/* Botão de Login Especial */
+.login-btn {
+  background: linear-gradient(135deg, #0ea5e9, #4f46e5);
+  color: #fff !important;
+  padding: 8px 24px;
+  border-radius: 999px;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+}
+
+/* Caixa de Usuário / Logout */
+.user-nav-box {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 5px 15px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-user-name {
+  color: #38bdf8 !important; /* Azul brilhante */
+  font-weight: 700;
+  transition: color 0.3s;
+}
+
+.nav-user-name:hover {
+  color: #818cf8 !important;
+  text-shadow: 0 0 10px rgba(129, 140, 248, 0.5);
+}
+
+.logout-btn {
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #ef4444;
+  color: white;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+/* Mobile Menu Icon */
 .nav-icon {
-  display: none; /* Escondido em telas grandes */
+  display: none;
   cursor: pointer;
 }
 
 .nav-icon div {
   width: 25px;
   height: 3px;
-  background-color: var(--dark-color);
-  margin: 5px 0;
-  transition: all 0.3s ease-in-out;
+  background-color: #f8fafc;
+  margin: 5px;
+  transition: all 0.3s ease;
 }
 
-
-/* --- LÓGICA RESPONSIVA --- */
+/* Mobile Responsividade */
 @media screen and (max-width: 960px) {
   .nav-menu {
     display: flex;
-    flex-direction: column; /* Itens em coluna */
+    flex-direction: column;
     width: 100%;
-    height: 90vh; /* Ocupa quase toda a altura da tela */
     position: absolute;
-    top: 80px; /* Começa logo abaixo da navbar */
-    left: -100%; /* Começa fora da tela, à esquerda */
+    top: 80px;
+    left: -100%;
     opacity: 1;
     transition: all 0.5s ease;
-    background: white;
-    gap: 1.5rem;
-    padding-top: 2rem;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    padding: 20px 0;
   }
 
   .nav-menu.active {
-    left: 0; /* Move para dentro da tela */
+    left: 0;
     opacity: 1;
-    transition: all 0.5s ease;
-    z-index: 1;
-  }
-
-  .nav-item {
-    width: 100%;
-    height: auto;
-  }
-
-  .nav-link {
-    text-align: center;
-    padding: 2rem;
-    width: 100%;
-    display: table;
+    z-index: 1000;
   }
 
   .nav-icon {
-    display: block; /* Mostra o ícone em telas pequenas */
+    display: block;
   }
-  
-  /* Animação do ícone para "X" */
-  .nav-icon .line1.active {
-    transform: rotate(-45deg) translate(-5px, 6px);
+
+  .nav-item {
+    margin: 10px 0;
   }
-  .nav-icon .line2.active {
-    opacity: 0;
-  }
-  .nav-icon .line3.active {
-    transform: rotate(45deg) translate(-5px, -6px);
-  }
+
+  /* Animação do Hamburger */
+  .line1.active { transform: translateY(8px) rotate(45deg); }
+  .line2.active { opacity: 0; }
+  .line3.active { transform: translateY(-8px) rotate(-45deg); }
 }
