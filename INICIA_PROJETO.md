@@ -15,11 +15,24 @@ O Backend gerencia os agendamentos, usuários e a conexão com a Inteligência A
    ```bash
    npm install
    ```
-3. Inicie o servidor:
+3. **[NOVO]** Sincronize o Banco de Dados e crie os usuários de teste (Seed):
+   ```bash
+   npx prisma db push
+   npx prisma db seed
+   ```
+4. Inicie o servidor:
    ```bash
    node server.js
    ```
 *O servidor ficará rodando (provavelmente na porta 3000).*
+
+---
+
+### Executando Testes de Qualidade (Backend)
+Se desejar rodar os testes da API ou formatar o código:
+- Rodar os Testes (Jest + Supertest): `npm test` *(mantenha o `node server.js` rodando em outro terminal)*
+- Checar erros de código (ESLint): `npm run lint`
+- Formatar código (Prettier): `npm run format`
 
 ## Passo 2: Iniciar o Site (Frontend - React)
 O Frontend é a interface visual onde você irá navegar, acessar o perfil e falar com a IA.

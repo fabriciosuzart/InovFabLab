@@ -1,11 +1,13 @@
 import './App.css';
 import Navbar from './components/Navbar';
 import { Routes, Route } from 'react-router-dom';
+import LoginModal from './components/LoginModal';
 
 // --- IMPORTAÇÃO DAS PÁGINAS ---
 import Home from './components/pages/Home';
 import Assistente from './components/pages/Assistente';
 import Equipamentos from './components/pages/Equipamentos';
+import EquipamentoDetalhes from './components/pages/EquipamentoDetalhes';
 import Documentacao from './components/pages/Documentacao'; 
 import Contato from './components/pages/Contato';
 import Login from './components/pages/Login';
@@ -21,12 +23,14 @@ function App() {
     <>
       <Navbar/>
       <VoiceNavigator />
+      <LoginModal />
       <main className="main-content">
           <Routes>
             {/* Rotas Públicas */}
             <Route path='/' element={<Home />} />
             <Route path='/assistente' element={<Assistente />} />
             <Route path='/equipamentos' element={<Equipamentos />} />
+            <Route path='/equipamento/:id' element={<EquipamentoDetalhes />} />
             <Route path='/documentacao' element={<Documentacao />} />
             <Route path='/contato' element={<Contato />} />
             

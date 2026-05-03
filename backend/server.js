@@ -4,6 +4,7 @@ import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { authMiddleware, roleMiddleware } from './middlewares/auth.js';
 import { pipeline } from '@xenova/transformers';
 import fetch from 'node-fetch';
 import fs from 'fs';
@@ -228,9 +229,34 @@ app.post('/api/train', upload.single('file'), async (req, res) => {
     }
 });
 
+// --- ROTAS DE LEITURA (GET) PARA EQUIPAMENTOS ---
+app.get('/api/equipment', async (req, res) => {
+    try {
+        const equipments = await prisma.equipment.findMany();
+        res.json(equipments);
+    } catch (error) {
+        console.error("❌ Erro ao buscar equipamentos:", error);
+        res.status(500).json({ error: "Erro interno." });
+    }
+});
+
+app.get('/api/equipment/:id', async (req, res) => {
+    try {
+        const equipmentId = parseInt(req.params.id);
+        const equipment = await prisma.equipment.findUnique({
+            where: { id: equipmentId }
+        });
+
+        if (!equipment) return res.status(404).json({ error: "Equipamento não encontrado." });
+        res.json(equipment);
+    } catch (error) {
+        console.error("❌ Erro ao buscar equipamento:", error);
+        res.status(500).json({ error: "Erro interno." });
+    }
+});
 // --- ROTA: ADICIONAR EQUIPAMENTO COM IMAGEM ---
 // O 'upload.single("image")' intercepta o arquivo enviado pelo front e salva na pasta uploads
-app.post('/api/equipment', upload.single('image'), async (req, res) => {
+app.post('/api/equipment', authMiddleware, roleMiddleware(['ADMIN', 'PROFESSOR']), upload.single('image'), async (req, res) => {
     try {
         const { name, description, status } = req.body;
 
@@ -310,22 +336,104 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-// A rota de Agendamento vou deixar comentada por enquanto, 
-// pois mudamos a regra de negócio na reunião (agora precisa de aprovação e ID do equipamento).
-// Vamos recriar ela juntos quando formos fazer os "Casos de Uso".
-/*
-app.post('/api/schedule', async (req, res) => {
-    // ... será construída em breve ...
-});
-*/
+// --- ROTAS DE AGENDAMENTO (RESERVAS) ---
 
-// app.post('/api/schedule', (req, res) => {
-//     const { userId, equipment, date, time } = req.body;
-//     db.run(`INSERT INTO appointments (userId, equipment, date, time) VALUES (?, ?, ?, ?)`, [userId, equipment, date, time], (err) => {
-//         if (err) return res.status(500).json({ error: "Erro." });
-//         res.json({ message: "Agendado!" });
-//     });
-// });
+// 1. Criar Reserva (Aluno)
+app.post('/api/schedule', async (req, res) => {
+    try {
+        const { equipmentId, date, time, justification } = req.body;
+        const userId = req.headers['x-user-id'];
+
+        if (!userId) return res.status(401).json({ error: "Usuário não autenticado." });
+        if (!equipmentId || !date || !time || !justification) {
+            return res.status(400).json({ error: "Preencha todos os campos, incluindo a justificativa." });
+        }
+
+        const newAppointment = await prisma.appointment.create({
+            data: {
+                date,
+                time,
+                justification,
+                status: "PENDENTE",
+                userId: parseInt(userId),
+                equipmentId: parseInt(equipmentId)
+            }
+        });
+
+        res.status(201).json({ message: "Reserva solicitada com sucesso! Aguarde aprovação.", appointment: newAppointment });
+    } catch (error) {
+        console.error("❌ Erro ao criar agendamento:", error);
+        res.status(500).json({ error: "Erro interno ao agendar." });
+    }
+});
+
+// 2. Listar Reservas Pendentes (Professor/Admin)
+app.get('/api/appointments/pending', authMiddleware, roleMiddleware(['ADMIN', 'PROFESSOR']), async (req, res) => {
+    try {
+        const pendingAppointments = await prisma.appointment.findMany({
+            where: { status: "PENDENTE" },
+            include: {
+                user: { select: { name: true, ra: true } },
+                equipment: { select: { name: true } }
+            }
+        });
+        res.json(pendingAppointments);
+    } catch (error) {
+        console.error("❌ Erro ao buscar pendentes:", error);
+        res.status(500).json({ error: "Erro interno." });
+    }
+});
+
+// 3. Atualizar Status da Reserva (Professor/Admin)
+app.put('/api/appointments/:id/status', authMiddleware, roleMiddleware(['ADMIN', 'PROFESSOR']), async (req, res) => {
+    try {
+        const { status } = req.body; // "APROVADO" ou "RECUSADO"
+        const appointmentId = parseInt(req.params.id);
+
+        const updated = await prisma.appointment.update({
+            where: { id: appointmentId },
+            data: { status }
+        });
+        
+        res.json({ message: `Reserva ${status.toLowerCase()}!`, appointment: updated });
+    } catch (error) {
+        console.error("❌ Erro ao atualizar status:", error);
+        res.status(500).json({ error: "Erro interno ao atualizar reserva." });
+    }
+});
+
+// 4. Listar Minhas Reservas (Aluno)
+app.get('/api/appointments/:userId', async (req, res) => {
+    try {
+        const userId = parseInt(req.params.userId);
+        
+        // Verifica se userId é numérico (evitar colisão com '/pending' se a ordem estiver errada, embora a ordem que coloquei evite isso)
+        if (isNaN(userId)) return res.status(400).json({error: "ID inválido"});
+
+        const appointments = await prisma.appointment.findMany({
+            where: { userId: userId },
+            include: {
+                equipment: { select: { name: true } }
+            },
+            orderBy: { id: 'desc' }
+        });
+        
+        const formatted = appointments.map(appt => ({
+            id: appt.id,
+            equipment: appt.equipment.name,
+            date: appt.date,
+            startTime: appt.time,
+            endTime: appt.time,
+            status: appt.status,
+            justification: appt.justification
+        }));
+
+        res.json(formatted);
+    } catch (error) {
+        console.error("❌ Erro ao buscar reservas do aluno:", error);
+        res.status(500).json({ error: "Erro interno." });
+    }
+});
 
 app.post('/api/chat', async (req, res) => {
     const { message } = req.body;
@@ -441,9 +549,9 @@ app.post('/api/transcribe', upload.single('audio'), async (req, res) => {
 
         // 1. Inicializa o Whisper (baixa o modelo na primeira vez)
         if (!transcriber) {
-            console.log("⚙️ Carregando modelo Whisper-Small na memória (primeira vez pode demorar ~5min para baixar ~460MB)...");
-            transcriber = await pipeline('automatic-speech-recognition', 'Xenova/whisper-small');
-            console.log("✅ Whisper-Small carregado!");
+            console.log("⚙️ Carregando modelo Whisper-Base na memória (melhor custo-benefício para PT-BR)...");
+            transcriber = await pipeline('automatic-speech-recognition', 'Xenova/whisper-base');
+            console.log("✅ Whisper-Base carregado!");
         }
 
         // 2. Lê o arquivo de áudio WAV gerado pelo frontend

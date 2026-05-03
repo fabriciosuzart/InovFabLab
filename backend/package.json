@@ -4,7 +4,9 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "",
@@ -25,6 +27,13 @@
     "wavefile": "^11.0.0"
   },
   "devDependencies": {
-    "prisma": "^6.19.3"
+    "eslint": "^10.3.0",
+    "jest": "^30.3.0",
+    "prettier": "^3.8.3",
+    "prisma": "^6.19.3",
+    "supertest": "^7.2.2"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }

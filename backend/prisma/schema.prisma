@@ -32,8 +32,9 @@ model Equipment {
 model Appointment {
   id          Int       @id @default(autoincrement())
   date        String    // Ex: "2026-04-20"
-  time        String    // Ex: "14:00"
-  status      String    @default("PENDENTE") // "PENDENTE", "APROVADO", "RECUSADO"
+  time          String    // Ex: "14:00"
+  justification String?   // Ex: "Projeto de TCC"
+  status        String    @default("PENDENTE") // "PENDENTE", "APROVADO", "RECUSADO"
   
   // Relacionando com Usuário
   userId      Int

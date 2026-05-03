@@ -1,74 +1,66 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import api from '../../api/axios';
 import './Agendamento.css';
 
-// Lista completa de equipamentos para garantir que todos apareçam
-const equipmentList = [
-  { name: "Impressora 3D Finder 01", icon: "🖨️" },
-  { name: "Impressora 3D Finder 02", icon: "🖨️" },
-  { name: "Cortadora a Laser", icon: "⚡" },
-  { name: "Prototipadora", icon: "🔧" },
-  { name: "Bambu Lab A1", icon: "🖨️" },
-  { name: "Bambu Lab A2", icon: "🖨️" },
-  { name: "Micro Retífica", icon: "🔩" },
-  { name: "Plotter de Recorte", icon: "✂️" },
-  { name: "X1 Carbon Combo - Impressora 3D", icon: "🖨️" },
-  { name: "Estação de Solda 01", icon: "🔥" },
-  { name: "Estação de Solda 02", icon: "🔥" },
-  { name: "Furadeira de Bancada", icon: "🔩" },
-  { name: "Serra Tico-Tico", icon: "🪚" },
-  { name: "Máquina de Costura", icon: "🧵" },
-  { name: "Parafusadeira e Furadeira a Bateria", icon: "🔧" },
-  { name: "Lixadeira Portátil DEWALT", icon: "🛠️" },
-];
-
 const Agendamento: React.FC = () => {
-    const [equipment, setEquipment] = useState('');
+    const navigate = useNavigate();
+    const location = useLocation();
+    const preselectedEquipmentId = location.state?.equipmentId || '';
+
+    const [equipmentList, setEquipmentList] = useState<any[]>([]);
+    const [equipmentId, setEquipmentId] = useState<string>(preselectedEquipmentId);
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
+    const [justification, setJustification] = useState('');
+    
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const navigate = useNavigate();
 
-    // Trava de login: redireciona se não estiver autenticado
+    // Trava de login
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
-            navigate('/login');
+            navigate('/');
         } else {
             setIsLoggedIn(true);
+            fetchEquipments();
         }
     }, [navigate]);
 
-    // Não renderiza nada enquanto verifica autenticação
+    const fetchEquipments = async () => {
+        try {
+            const res = await api.get('/equipment');
+            // Filtra apenas os que estão disponíveis, opcional.
+            setEquipmentList(res.data);
+            
+            // Se veio com ID preselecionado mas era numérico, converte para string para o select bater certinho.
+            if (preselectedEquipmentId) {
+                setEquipmentId(preselectedEquipmentId.toString());
+            }
+        } catch (error) {
+            console.error("Erro ao buscar equipamentos.");
+        }
+    };
+
     if (!isLoggedIn) return null;
 
     const handleSchedule = async (e: React.FormEvent) => {
         e.preventDefault();
         
-        const userId = localStorage.getItem('userId');
-        
-        if (!userId) {
-            alert("Você precisa fazer login antes de agendar!");
-            return;
-        }
-
         try {
-            const response = await fetch('http://localhost:3000/api/schedule', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId, equipment, date, time })
+            const response = await api.post('/schedule', { 
+                equipmentId, 
+                date, 
+                time,
+                justification
             });
             
-            if (response.ok) {
-                alert(`Agendamento confirmado para ${equipment} no dia ${date} às ${time}!`);
-                setEquipment('');
-                setDate('');
-                setTime('');
-            } else {
-                alert('Erro ao agendar. Tente novamente.');
+            if (response.status === 201) {
+                alert(`Reserva enviada com sucesso! Acompanhe o status no seu perfil.`);
+                navigate('/perfil');
             }
-        } catch (error) {
-            alert('Erro de conexão com o servidor.');
+        } catch (error: any) {
+            alert(error.response?.data?.error || 'Erro ao agendar. Tente novamente.');
         }
     };
 
@@ -76,8 +68,8 @@ const Agendamento: React.FC = () => {
         <div className="agendamento-page">
             <div className="schedule-card">
                 <div className="schedule-header">
-                    <h1>📅 Agendar Equipamento</h1>
-                    <p>Reserve o equipamento desejado para garantir seu uso no laboratório.</p>
+                    <h1>📅 Solicitar Reserva</h1>
+                    <p>Preencha os dados e informe a justificativa para avaliação do professor.</p>
                 </div>
 
                 <form className="schedule-form" onSubmit={handleSchedule}>
@@ -86,13 +78,15 @@ const Agendamento: React.FC = () => {
                         <div className="select-wrapper">
                             <select 
                                 id="equipment" 
-                                value={equipment} 
-                                onChange={e => setEquipment(e.target.value)} 
+                                value={equipmentId} 
+                                onChange={e => setEquipmentId(e.target.value)} 
                                 required
                             >
-                                <option value="" disabled>-- Escolha um item --</option>
-                                {equipmentList.map((item, index) => (
-                                    <option key={index} value={item.name}>{item.icon} {item.name}</option>
+                                <option value="" disabled>-- Escolha um equipamento --</option>
+                                {equipmentList.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                        {item.status === 'DISPONÍVEL' ? '🟢' : '🟠'} {item.name}
+                                    </option>
                                 ))}
                             </select>
                         </div>
@@ -100,7 +94,7 @@ const Agendamento: React.FC = () => {
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="scheduleDate">Data de Uso</label>
+                            <label htmlFor="scheduleDate">Data Prevista</label>
                             <input 
                                 type="date" 
                                 id="scheduleDate" 
@@ -121,8 +115,30 @@ const Agendamento: React.FC = () => {
                         </div>
                     </div>
 
+                    <div className="form-group">
+                        <label htmlFor="justification">Justificativa (Motivo do Uso)</label>
+                        <textarea 
+                            id="justification"
+                            rows={3}
+                            placeholder="Descreva brevemente o projeto ou disciplina..."
+                            value={justification}
+                            onChange={e => setJustification(e.target.value)}
+                            required
+                            style={{
+                                width: '100%',
+                                padding: '12px',
+                                borderRadius: '8px',
+                                border: '1px solid #334155',
+                                background: '#1e293b',
+                                color: 'white',
+                                fontFamily: 'inherit',
+                                resize: 'vertical'
+                            }}
+                        />
+                    </div>
+
                     <button type="submit" className="submit-button">
-                        Confirmar Agendamento
+                        Enviar Solicitação
                     </button>
                 </form>
             </div>
