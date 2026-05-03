@@ -196,6 +196,64 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+app.get('/api/users', async (req, res) => {
+    try {
+        const users = await prisma.user.findMany({
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                ra: true,
+                role: true
+            }
+        });
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ error: "Erro ao buscar usuários." });
+    }
+});
+
+app.put('/api/users/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const { name, email, ra } = req.body;
+
+        const existingUser = await prisma.user.findUnique({ where: { id: userId } });
+        if (!existingUser) {
+            return res.status(404).json({ error: "Usuário não encontrado." });
+        }
+        if (existingUser.role === 'ADMIN') {
+            return res.status(403).json({ error: "Perfis de administrador não podem ser editados." });
+        }
+
+        const updatedUser = await prisma.user.update({
+            where: { id: userId },
+            data: {
+                name,
+                email,
+                ra: ra || null
+            }
+        });
+
+        res.json({ message: "Usuário atualizado com sucesso.", user: updatedUser });
+    } catch (error) {
+        if (error.code === 'P2002') {
+            return res.status(400).json({ error: "Já existe outro usuário com este e-mail ou R.A." });
+        }
+        console.error('Erro ao atualizar usuário:', error);
+        res.status(500).json({ error: "Erro ao atualizar usuário." });
+    }
+});
+
+app.get('/api/equipment', async (req, res) => {
+    try {
+        const equipment = await prisma.equipment.findMany();
+        res.json(equipment);
+    } catch (error) {
+        res.status(500).json({ error: "Erro ao buscar equipamentos." });
+    }
+});
+
 app.post('/api/equipment', upload.single('image'), async (req, res) => {
     try {
         const { name, description, status } = req.body;
