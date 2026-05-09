@@ -14,14 +14,17 @@ interface AdminUser {
     email: string;
     ra?: string | null;
     role?: string;
+    trainings?: string;
 }
 
 interface EquipmentItem {
-    id: string;
+    id: string | number;
     name: string;
     description?: string | null;
     imagePath?: string | null;
     status: string;
+    quantity?: number;
+    items?: any[];
 }
 
 const Perfil: React.FC = () => {
@@ -43,16 +46,18 @@ const Perfil: React.FC = () => {
     const [phone, setPhone] = useState('');
     const [editingUser, setEditingUser] = useState<AdminUser | null>(null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [pauseModalGroup, setPauseModalGroup] = useState<EquipmentItem | null>(null);
     const [editName, setEditName] = useState('');
     const [editEmail, setEditEmail] = useState('');
     const [editRa, setEditRa] = useState('');
+    const [editTrainings, setEditTrainings] = useState<string[]>([]);
 
     const openEditUser = (user: AdminUser) => {
-        if (user.role === 'ADMIN') return;
         setEditingUser(user);
         setEditName(user.name);
         setEditEmail(user.email);
-        setEditRa(user.ra ?? '');
+        setEditRa(user.ra || '');
+        setEditTrainings(user.trainings ? user.trainings.split(',') : []);
         setIsEditModalOpen(true);
     };
 
@@ -69,7 +74,12 @@ const Perfil: React.FC = () => {
             const res = await fetch(`http://localhost:3000/api/users/${editingUser.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: editName, email: editEmail, ra: editRa })
+                body: JSON.stringify({ 
+                    name: editName, 
+                    email: editEmail, 
+                    ra: editRa,
+                    trainings: editTrainings.join(',')
+                })
             });
             const data = await res.json();
             if (!res.ok) {
@@ -85,12 +95,39 @@ const Perfil: React.FC = () => {
         }
     };
 
+    const handleDeleteUser = async () => {
+        if (!editingUser) return;
+        if (!window.confirm(`Tem certeza que deseja excluir o usuário ${editingUser.name}? Esta ação é irreversível.`)) return;
+
+        try {
+            const res = await fetch(`http://localhost:3000/api/users/${editingUser.id}`, {
+                method: 'DELETE'
+            });
+
+            if (res.ok) {
+                alert('Usuário excluído com sucesso!');
+                closeEditModal();
+                fetchAdminUsers();
+            } else {
+                const data = await res.json();
+                alert('Erro ao excluir: ' + data.error);
+            }
+        } catch (error) {
+            console.error('Erro ao excluir usuário', error);
+            alert('Erro de conexão com o servidor.');
+        }
+    };
+
     // Ao carregar a página
     useEffect(() => {
         // Busca os dados salvos no localStorage (pelo Login.tsx)
         const name = localStorage.getItem('userName') || 'Usuário';
-        const email = localStorage.getItem('userEmail') || 'Não informado';
-        const ra = localStorage.getItem('userRA') || 'Não informado';
+        let email = localStorage.getItem('userEmail');
+        if (!email || email === 'undefined' || email === 'null') email = 'Não informado';
+        
+        let ra = localStorage.getItem('userRA') || localStorage.getItem('userRa');
+        if (!ra || ra === 'undefined' || ra === 'null') ra = 'Não informado';
+        
         const role = localStorage.getItem('userRole') || 'ALUNO';
         const userId = localStorage.getItem('userId');
         
@@ -129,9 +166,29 @@ const Perfil: React.FC = () => {
         try {
             const res = await fetch('http://localhost:3000/api/equipment');
             const data = await res.json();
-            setEquipmentItems(Array.isArray(data) ? data : []);
+            if (!Array.isArray(data)) return;
+
+            const grouped = data.reduce((acc: any, item: any) => {
+                const baseName = item.name.replace(/\s*(0\d|A\d|\d+)$/i, '').trim();
+                if (!acc[baseName]) {
+                    acc[baseName] = { 
+                        id: item.id, 
+                        name: baseName, 
+                        status: item.status, 
+                        imagePath: item.imagePath || item.img, 
+                        quantity: 1,
+                        items: [item]
+                    };
+                } else {
+                    acc[baseName].quantity = (acc[baseName].quantity || 1) + 1;
+                    acc[baseName].items.push(item);
+                }
+                return acc;
+            }, {} as Record<string, EquipmentItem>);
+            
+            setEquipmentItems(Object.values(grouped));
         } catch (e) {
-            console.error('Erro ao buscar equipamentos do admin:', e);
+            console.error('Erro ao buscar/agrupar equipamentos do admin:', e);
         }
     };
 
@@ -174,9 +231,16 @@ const Perfil: React.FC = () => {
 
     const getStatusClass = (status: string) => {
         const normalized = status?.toLowerCase?.();
-        if (normalized?.includes('disp')) return 'available';
-        if (normalized?.includes('uso')) return 'in-use';
+        if (normalized?.includes('disp') || normalized === 'available') return 'available';
+        if (normalized?.includes('uso') || normalized === 'in-use') return 'in-use';
         return 'maintenance';
+    };
+
+    const formatStatusText = (status: string) => {
+        const normalized = status?.toLowerCase?.();
+        if (normalized?.includes('disp') || normalized === 'available') return 'Disponível';
+        if (normalized?.includes('uso') || normalized === 'in-use') return 'Em uso';
+        return 'Em manutenção';
     };
 
     const needsTraining = (item: EquipmentItem) => {
@@ -215,6 +279,43 @@ const Perfil: React.FC = () => {
             }
         } catch (error) {
             alert('Erro de conexão com o servidor.');
+        }
+    };
+
+    const handleToggleStatus = async (item: any) => {
+        try {
+            const isMaintenance = getStatusClass(item.status) === 'maintenance';
+            const newStatus = isMaintenance ? 'available' : 'maintenance';
+            
+            const res = await fetch(`http://localhost:3000/api/equipment/${item.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
+            
+            if (res.ok) {
+                if (pauseModalGroup) {
+                    setPauseModalGroup(prev => {
+                        if (!prev) return prev;
+                        return {
+                            ...prev,
+                            items: prev.items?.map((i: any) => i.id === item.id ? { ...i, status: newStatus } : i)
+                        }
+                    });
+                }
+                fetchEquipment();
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar status', error);
+            alert('Erro de conexão com o servidor.');
+        }
+    };
+
+    const handleGroupPauseClick = (group: EquipmentItem) => {
+        if (group.quantity === 1 && group.items && group.items.length > 0) {
+            handleToggleStatus(group.items[0]);
+        } else {
+            setPauseModalGroup(group);
         }
     };
 
@@ -468,25 +569,46 @@ const Perfil: React.FC = () => {
                                             <strong>{item.name}</strong>
                                             <p>{item.description || 'Sem descrição disponível'}</p>
                                             <div className="equipment-meta-row">
+                                                {item.quantity && item.quantity >= 1 && (
+                                                    <span className="equipment-tag">QTD: {item.quantity}</span>
+                                                )}
                                                 <span className={`status-pill ${getStatusClass(item.status)}`}>
-                                                    {item.status}
+                                                    {formatStatusText(item.status).toUpperCase()}
                                                 </span>
-                                                {needsTraining(item) && <span className="equipment-tag">treino</span>}
+                                                {needsTraining(item) && <span className="equipment-tag training">TREINO</span>}
                                             </div>
-                                            <button type="button" className="ghost-btn small">
-                                                <span className="button-icon" aria-hidden="true">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M4 17.25V21h3.75L17.81 10.94l-3.75-3.75L4 17.25Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                                        <path d="M14.06 4.93994c.39-.39 1.02-.39 1.41 0l2.54 2.54c.39.39.39 1.02 0 1.41l-1.83 1.83-3.75-3.75 1.63-1.63Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                                    </svg>
-                                                </span>
-                                                Editar
-                                            </button>
+                                            <div className="equipment-actions-row">
+                                                <button type="button" className="ghost-btn small flex-1">
+                                                    <span className="button-icon" aria-hidden="true">
+                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M4 17.25V21h3.75L17.81 10.94l-3.75-3.75L4 17.25Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                            <path d="M14.06 4.93994c.39-.39 1.02-.39 1.41 0l2.54 2.54c.39.39.39 1.02 0 1.41l-1.83 1.83-3.75-3.75 1.63-1.63Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                        </svg>
+                                                    </span>
+                                                    Editar
+                                                </button>
+                                                <button 
+                                                    type="button" 
+                                                    className={`ghost-btn small icon-only ${getStatusClass(item.status) === 'maintenance' ? 'play-btn' : 'pause-btn'}`}
+                                                    onClick={() => handleGroupPauseClick(item)}
+                                                    title={getStatusClass(item.status) === 'maintenance' ? 'Disponibilizar' : 'Pausar para Manutenção'}
+                                                >
+                                                    {getStatusClass(item.status) === 'maintenance' ? (
+                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                                            <path d="M8 5v14l11-7z" />
+                                                        </svg>
+                                                    ) : (
+                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                                                        </svg>
+                                                    )}
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
                                 <div className="add-equipment-card">
-                                    <button type="button" className="add-equipment-button">+ Adicionar equipamento</button>
+                                    <button type="button" className="add-equipment-button">+</button>
                                 </div>
                             </div>
                         </div>
@@ -543,29 +665,118 @@ const Perfil: React.FC = () => {
 
             {isEditModalOpen && editingUser && (
                 <div className="modal-overlay" onClick={closeEditModal}>
-                    <div className="modal-card" onClick={e => e.stopPropagation()}>
+                    <div className="modal-card edit-user-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '600px' }}>
                         <div className="modal-header">
                             <div>
-                                <h3>Editar usuário</h3>
-                                <p>Somente perfis de professor e aluno podem ser alterados.</p>
+                                <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                    Editar perfil
+                                </h3>
                             </div>
                             <button type="button" className="modal-close" onClick={closeEditModal}>×</button>
                         </div>
                         <form className="edit-user-form" onSubmit={handleEditUserSubmit}>
-                            <label>Nome completo</label>
-                            <input type="text" value={editName} onChange={e => setEditName(e.target.value)} required />
+                            <div className="form-group">
+                                <label className="sleek-label">NOME DO USUÁRIO</label>
+                                <input type="text" className="sleek-input" value={editName} onChange={e => setEditName(e.target.value)} required />
+                            </div>
 
-                            <label>E-mail</label>
-                            <input type="email" value={editEmail} onChange={e => setEditEmail(e.target.value)} required />
+                            <div className="form-row">
+                                <div className="form-group flex-1">
+                                    <label className="sleek-label">E-MAIL</label>
+                                    <input type="email" className="sleek-input" value={editEmail} onChange={e => setEditEmail(e.target.value)} required />
+                                </div>
+                                <div className="form-group flex-1">
+                                    <label className="sleek-label">R.A.</label>
+                                    <input type="text" className="sleek-input" value={editRa} onChange={e => setEditRa(e.target.value)} />
+                                </div>
+                            </div>
 
-                            <label>R.A.</label>
-                            <input type="text" value={editRa} onChange={e => setEditRa(e.target.value)} />
+                            <div className="form-group">
+                                <label className="sleek-label">TREINAMENTOS CONCLUÍDOS</label>
+                                <div className="training-tags-container">
+                                    {trainingModules.map(module => {
+                                        const isSelected = editTrainings.includes(module);
+                                        return (
+                                            <button 
+                                                type="button" 
+                                                key={module}
+                                                className={`training-tag-btn ${isSelected ? 'selected' : ''}`}
+                                                onClick={() => {
+                                                    if (isSelected) {
+                                                        setEditTrainings(prev => prev.filter(t => t !== module));
+                                                    } else {
+                                                        setEditTrainings(prev => [...prev, module]);
+                                                    }
+                                                }}
+                                            >
+                                                {isSelected && <span className="check-icon">✓</span>}
+                                                {module}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
 
-                            <div className="modal-actions">
-                                <button type="button" className="ghost-btn" onClick={closeEditModal}>Cancelar</button>
-                                <button type="submit" className="secondary-btn">Salvar alterações</button>
+                            <hr className="divider" style={{ margin: '20px 0' }} />
+
+                            <div className="modal-actions-footer">
+                                <button type="button" className="ghost-btn danger-btn" onClick={handleDeleteUser}>
+                                    Excluir Usuário
+                                </button>
+                                <div className="right-actions">
+                                    <button type="button" className="ghost-btn" onClick={closeEditModal}>Cancelar</button>
+                                    <button type="submit" className="secondary-btn" style={{ padding: '8px 16px' }}>Salvar</button>
+                                </div>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {pauseModalGroup && (
+                <div className="modal-overlay" onClick={() => setPauseModalGroup(null)}>
+                    <div className="modal-card" onClick={e => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <div>
+                                <h3>Alterar Status: {pauseModalGroup.name}</h3>
+                                <p>Este equipamento possui múltiplas unidades. Escolha qual deseja alterar.</p>
+                            </div>
+                            <button type="button" className="modal-close" onClick={() => setPauseModalGroup(null)}>×</button>
+                        </div>
+
+                        <div className="equipment-unit-list" style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '20px', marginBottom: '24px' }}>
+                            {pauseModalGroup.items?.map(unit => (
+                                <div key={unit.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.05)', padding: '12px 16px', borderRadius: '12px' }}>
+                                    <div>
+                                        <div style={{ fontWeight: 600, color: '#f8fafc' }}>{unit.name}</div>
+                                        <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '4px' }}>Status: {formatStatusText(unit.status)}</div>
+                                    </div>
+                                    <button 
+                                        type="button" 
+                                        className={`ghost-btn small icon-only ${getStatusClass(unit.status) === 'maintenance' ? 'play-btn' : 'pause-btn'}`}
+                                        onClick={() => handleToggleStatus(unit)}
+                                        title={getStatusClass(unit.status) === 'maintenance' ? 'Disponibilizar' : 'Pausar para Manutenção'}
+                                    >
+                                        {getStatusClass(unit.status) === 'maintenance' ? (
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M8 5v14l11-7z" />
+                                            </svg>
+                                        ) : (
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                                            </svg>
+                                        )}
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="modal-actions">
+                            <button type="button" className="ghost-btn" onClick={() => setPauseModalGroup(null)}>
+                                Fechar
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
